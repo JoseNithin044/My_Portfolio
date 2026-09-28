@@ -21,6 +21,10 @@
 
     * { box-sizing: border-box; margin: 0; padding: 0; }
 
+    html {
+      scroll-behavior: smooth;
+    }
+
     /* Animated Professional Background */
     body {
       background: linear-gradient(-45deg, #CCD0CF, #9BA8AB, #CCD0CF, #ffffff);
@@ -30,6 +34,8 @@
       font-family: var(--font-family);
       line-height: 1.6;
       overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
     }
 
     @keyframes gradientBG {
@@ -48,10 +54,13 @@
       z-index: 10;
       pointer-events: none;
       display: flex;
+      flex-direction: column;
       justify-content: center;
       align-items: center;
       overflow: hidden;
       background: linear-gradient(135deg, #06141B 0%, #253745 100%);
+      transition: opacity 0.1s linear, visibility 0.1s linear;
+      will-change: opacity, transform;
     }
 
     .hero-intro-container {
@@ -67,6 +76,8 @@
     }
 
     .static-letter {
+      position: relative;
+      z-index: 1; /* Ensures letters stay behind the image */
       font-size: clamp(6rem, 20vw, 18rem);
       font-weight: 900;
       color: rgba(255, 255, 255, 0.95);
@@ -76,10 +87,13 @@
       user-select: none;
       white-space: nowrap;
       line-height: 1;
+      will-change: transform;
+      transition: transform 0.4s ease-out;
     }
 
     .centered-image-container {
       position: relative;
+      z-index: 5; /* Higher z-index to make sure 'SE' goes behind it during overlap */
       width: 250px;
       height: 250px;
       min-width: 250px;
@@ -94,6 +108,37 @@
     }
 
     #zoom-image { width: 100%; height: 100%; object-fit: cover; display: block; }
+    
+    /* Scroll Indicator Styles */
+    .scroll-indicator {
+      position: absolute;
+      bottom: 40px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      color: rgba(255, 255, 255, 0.8);
+      font-size: 0.85rem;
+      font-weight: 600;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      animation: bounce 2s infinite;
+      transition: opacity 0.2s ease;
+      z-index: 5;
+    }
+
+    .scroll-indicator svg {
+      width: 20px;
+      height: 20px;
+      fill: currentColor;
+    }
+
+    @keyframes bounce {
+      0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+      40% { transform: translateY(-10px); }
+      60% { transform: translateY(-5px); }
+    }
+
     #scroll-spacer { height: 150vh; }
 
     /* --- Main Portfolio Section --- */
@@ -102,6 +147,7 @@
       z-index: 20;
       background: rgba(255, 255, 255, 0.3);
       backdrop-filter: blur(15px);
+      -webkit-backdrop-filter: blur(15px);
       min-height: 100vh;
       border-top: 3px solid var(--accent-secondary);
     }
@@ -111,20 +157,41 @@
       display: flex; justify-content: space-between; align-items: center;
       padding: 1.2rem 5%; border-bottom: 1px solid var(--glass-border);
       position: sticky; top: 0; background: rgba(255, 255, 255, 0.85);
-      backdrop-filter: blur(12px); z-index: 100; box-shadow: 0 4px 20px rgba(6, 20, 27, 0.05);
+      backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+      z-index: 100; box-shadow: 0 4px 20px rgba(6, 20, 27, 0.05);
     }
 
     .nav-brand { font-weight: 800; font-size: 1.3rem; letter-spacing: 0.5px; color: var(--accent-primary); }
-    nav { display: flex; gap: 2rem; }
-    nav a { color: var(--text-main); font-weight: 600; font-size: 1rem; transition: color 0.3s; }
-    nav a:hover { color: var(--accent-secondary); }
+    
+    nav { display: flex; gap: 1rem; align-items: center; }
+    
+    /* Navigation Highlight Effect */
+    nav a { 
+      color: var(--text-main); 
+      font-weight: 600; 
+      font-size: 1rem; 
+      padding: 0.5rem 1rem;
+      border-radius: 20px;
+      transition: all 0.3s ease; 
+    }
+    nav a:hover { 
+      background-color: var(--accent-secondary);
+      color: #ffffff;
+      box-shadow: 0 4px 10px rgba(37, 55, 69, 0.2);
+    }
     
     .btn-contact { 
       background: linear-gradient(45deg, #11212D, #253745); color: white; 
       padding: 0.6rem 1.5rem; border-radius: 25px; font-weight: 700; font-size: 0.95rem; 
       box-shadow: 0 4px 15px rgba(17, 33, 45, 0.3); transition: all 0.3s ease; 
+      display: inline-block;
+      margin-left: 1rem;
     }
-    .btn-contact:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(17, 33, 45, 0.5); }
+    .btn-contact:hover { 
+      transform: translateY(-2px); 
+      box-shadow: 0 6px 20px rgba(17, 33, 45, 0.5); 
+      color: white; /* Ensure text stays white on hover instead of generic link hover */
+    }
 
     /* Sections */
     .section-container, .hero { max-width: 1200px; margin: 0 auto; padding: 5rem 5%; }
@@ -140,7 +207,7 @@
     /* Glassmorphism Cards */
     .stat-card, .timeline-card, .skill-box, .cert-list, .edu-card, .gallery-card {
       background: var(--glass-bg); border: 1px solid var(--glass-border); border-radius: 16px;
-      padding: 2rem; box-shadow: var(--glass-shadow); backdrop-filter: blur(8px);
+      padding: 2rem; box-shadow: var(--glass-shadow); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
       transition: transform 0.3s ease, box-shadow 0.3s ease;
     }
     .stat-card:hover, .timeline-card:hover, .skill-box:hover, .cert-list:hover, .edu-card:hover, .gallery-card:hover {
@@ -160,6 +227,16 @@
     .timeline-role { font-size: 1.3rem; font-weight: 800; color: var(--text-main); }
     .timeline-date { background: var(--accent-secondary); color: white; padding: 0.2rem 0.8rem; border-radius: 20px; font-weight: 600; font-size: 0.85rem; }
     .timeline-company { color: var(--accent-tertiary); font-weight: 700; margin-bottom: 1.2rem; font-size: 1.05rem; }
+    .timeline-company a {
+      color: var(--accent-tertiary);
+      text-decoration: none;
+      border-bottom: 2px solid var(--accent-secondary);
+      transition: color 0.2s ease, border-color 0.2s ease;
+    }
+    .timeline-company a:hover {
+      color: var(--accent-primary);
+      border-color: var(--accent-primary);
+    }
     .timeline-bullets { list-style-type: none; padding-left: 0; color: var(--text-main); font-weight: 500; }
     .timeline-bullets li { margin-bottom: 0.8rem; position: relative; padding-left: 1.5rem; }
     .timeline-bullets li::before { content: '▪'; position: absolute; left: 0; top: 0; font-size: 1.2rem; color: var(--accent-tertiary); line-height: 1.2;}
@@ -168,7 +245,7 @@
     .skills-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; }
     .skill-box h3 { margin-bottom: 1.5rem; font-size: 1.3rem; font-weight: 800; }
     .tag-container { display: flex; flex-wrap: wrap; gap: 0.8rem; }
-    .tag { background: white; border: 1px solid var(--accent-secondary); padding: 0.5rem 1rem; border-radius: 20px; font-size: 0.9rem; font-weight: 600; color: var(--accent-primary); box-shadow: 0 2px 10px rgba(37, 55, 69, 0.05); transition: all 0.2s; }
+    .tag { background: white; border: 1px solid var(--accent-secondary); padding: 0.5rem 1rem; border-radius: 20px; font-size: 0.9rem; font-weight: 600; color: var(--accent-primary); box-shadow: 0 2px 10px rgba(37, 55, 69, 0.05); transition: all 0.2s ease; }
     .tag:hover { background: var(--accent-secondary); color: white; transform: scale(1.05); }
     
     .quote-box { margin-top: 3rem; background: linear-gradient(135deg, rgba(255,255,255,0.95), rgba(255,255,255,0.7)); border-left: 6px solid var(--accent-secondary); padding: 2rem; border-radius: 0 16px 16px 0; box-shadow: var(--glass-shadow); }
@@ -217,12 +294,14 @@
 
     /* Gallery */
     .gallery-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 2rem; }
-    .gallery-card { padding: 1rem; }
-    .gallery-card img { width: 100%; height: 240px; object-fit: cover; border-radius: 10px; display: block; box-shadow: 0 4px 15px rgba(6, 20, 27, 0.1); }
+    .gallery-card { padding: 1rem; overflow: hidden; }
+    .gallery-img-wrapper { overflow: hidden; border-radius: 10px; }
+    .gallery-card img { width: 100%; height: 240px; object-fit: cover; border-radius: 10px; display: block; box-shadow: 0 4px 15px rgba(6, 20, 27, 0.1); transition: transform 0.4s ease; }
+    .gallery-card:hover img { transform: scale(1.04); }
     .gallery-caption { padding-top: 1.2rem; font-size: 1rem; font-weight: 700; color: var(--text-main); text-align: center; }
 
     /* Footer & Contact Section */
-    footer { border-top: 1px solid var(--glass-border); padding: 5rem 5% 3rem 5%; text-align: center; background: rgba(255,255,255,0.75); backdrop-filter: blur(10px); }
+    footer { border-top: 1px solid var(--glass-border); padding: 5rem 5% 3rem 5%; text-align: center; background: rgba(255,255,255,0.75); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); }
     .footer-cta h2 { font-size: 2.2rem; margin-bottom: 1.5rem; color: var(--accent-primary); font-weight: 900; }
     
     .contact-details { margin: 2rem auto; max-width: 500px; display: flex; flex-direction: column; gap: 1.2rem; }
@@ -254,6 +333,7 @@
       border-radius: 50%;
       background: rgba(255, 255, 255, 0.85);
       backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
       display: flex;
       align-items: center;
       justify-content: center;
@@ -278,6 +358,7 @@
       .contact-item { flex-direction: column; text-align: center; gap: 0.5rem; padding: 1rem; border-radius: 15px;}
       .social-floating { bottom: 20px; right: 20px; gap: 10px; }
       .social-floating a { width: 45px; height: 45px; }
+      .section-container, .hero { padding: 3.5rem 5%; }
     }
   </style>
 </head>
@@ -286,11 +367,19 @@
   <!-- Scroll Intro with 'J', Circular Image as 'O', 'SE' -->
   <div id="intro-fixed">
     <div class="hero-intro-container">
-      <div class="static-letter">J</div>
+      <div class="static-letter" id="letter-j">J</div>
       <div class="centered-image-container" id="zoom-container">
         <img src="915.jpg" id="zoom-image" alt="Jose Nithin">
       </div>
-      <div class="static-letter">SE</div>
+      <div class="static-letter" id="letter-se">SE</div>
+    </div>
+    
+    <!-- Scroll Text and Icon -->
+    <div class="scroll-indicator" id="scroll-indicator">
+      <span>Scroll</span>
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512">
+        <path d="M169.4 470.6c12.5 12.5 32.8 12.5 45.3 0l160-160c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L224 370.8 224 64c0-17.7-14.3-32-32-32s-32 14.3-32 32l0 306.7L54.6 265.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l160 160z"/>
+      </svg>
     </div>
   </div>
 
@@ -325,7 +414,7 @@
         </div>
         <div class="stat-card">
           <div class="stat-num">2 yrs</div>
-          <div class="stat-label">PL SQL Dev LTIMindtree</div>
+          <div class="stat-label">PL SQL Dev LTM</div>
         </div>
         <div class="stat-card">
           <div class="stat-num">15</div>
@@ -346,7 +435,9 @@
             <span class="timeline-role">QA/QC Engineer (CIVIL)</span>
             <span class="timeline-date">Sep 2026 - Present</span>
           </div>
-          <div class="timeline-company">SAMA Steel, Qatar</div>
+          <div class="timeline-company">
+            <a href="https://samasteel.qa/" target="_blank" rel="noopener noreferrer">SAMA Steel</a>, Qatar
+          </div>
           <ul class="timeline-bullets">
             <li>Drafted, prepared, and managed comprehensive technical project documentation, including Subcontractor Prequalifications and Material Submittals.</li>
             <li>Prepared Material Approval Requests (MAR), efficiently addressing client comments, rectifying technical discrepancies, and resubmitting for swift final approval.</li>
@@ -361,7 +452,9 @@
             <span class="timeline-role">Person in Charge (PIC)</span>
             <span class="timeline-date">May - Jul 2026</span>
           </div>
-          <div class="timeline-company">RKH Qitarat, Doha Metro Technician (MHI/MAS Energy)</div>
+          <div class="timeline-company">
+            <a href="https://www.rkhqitarat.com/" target="_blank" rel="noopener noreferrer">RKH Qitarat</a>, Doha Metro Technician (MHI/MAS Energy)
+          </div>
           <ul class="timeline-bullets">
             <li>Led team of 15 technicians across daily mechanical maintenance and installation work, holding project timelines.</li>
             <li>Ran daily Toolbox Talks and safety briefings, keeping 100% compliance with Qatar Rail RKH Qitarat HSE regulations.</li>
@@ -375,7 +468,9 @@
             <span class="timeline-role">Software Engineer</span>
             <span class="timeline-date">2024 - Apr 2026</span>
           </div>
-          <div class="timeline-company">LTIMindtree, Chennai (Oracle PL/SQL | Haven / Finacle Financial Services)</div>
+          <div class="timeline-company">
+            <a href="https://www.ltm.com/" target="_blank" rel="noopener noreferrer">LTM</a>, Chennai (Oracle PL/SQL)
+          </div>
           <ul class="timeline-bullets">
             <li>Built PL/SQL packages, procedures, functions and triggers supporting core banking and transaction processing.</li>
             <li>Loaded high-volume data from flat files into Oracle with SQL*Loader and External Tables, keeping cross-environment consistency.</li>
@@ -389,7 +484,9 @@
             <span class="timeline-role">Quality Inspector</span>
             <span class="timeline-date">2023 - 2024</span>
           </div>
-          <div class="timeline-company">Bharat Heavy Electricals Limited, Trichy (Piping & Mechanical Components)</div>
+          <div class="timeline-company">
+            <a href="https://www.bhel.com/" target="_blank" rel="noopener noreferrer">Bharat Heavy Electricals Limited</a>, Trichy (Piping & Mechanical Components)
+          </div>
           <ul class="timeline-bullets">
             <li>Ran dimensional and visual inspections on piping/mechanical components to ASME / API specifications.</li>
             <li>Checked incoming raw materials from suppliers, keeping defective stock out of production.</li>
@@ -446,39 +543,39 @@
           <ul>
             <li>
               <span class="cert-title">OSHA 30-Hour General Industry Safety</span>
-              <a href="30-Hour OSHA General Industry Safety and Health Certificate.pdf" target="_blank" class="cert-link">View PDF 📄</a>
+              <a href="30-Hour OSHA General Industry Safety and Health Certificate.pdf" target="_blank" rel="noopener noreferrer" class="cert-link">View PDF 📄</a>
             </li>
             <li>
               <span class="cert-title">OSHA 10-Hour General Industry Safety</span>
-              <a href="OSHA Industry Safety Certificate.pdf" target="_blank" class="cert-link">View PDF 📄</a>
+              <a href="OSHA Industry Safety Certificate.pdf" target="_blank" rel="noopener noreferrer" class="cert-link">View PDF 📄</a>
             </li>
             <li>
               <span class="cert-title">NDT Level 2 Certification</span>
-              <a href="NDT Certificate.pdf" target="_blank" class="cert-link">View PDF 📄</a>
+              <a href="NDT Certificate.pdf" target="_blank" rel="noopener noreferrer" class="cert-link">View PDF 📄</a>
             </li>
             <li>
               <span class="cert-title">Oracle Database SQL Certified</span>
-              <a href="Oracle SQL Certificate.pdf" target="_blank" class="cert-link">View PDF 📄</a>
+              <a href="Oracle SQL Certificate.pdf" target="_blank" rel="noopener noreferrer" class="cert-link">View PDF 📄</a>
             </li>
             <li>
               <span class="cert-title">Oracle Cloud Database Certificate</span>
-              <a href="Oracle Cloud Database Certificate.pdf" target="_blank" class="cert-link">View PDF 📄</a>
+              <a href="Oracle Cloud Database Certificate.pdf" target="_blank" rel="noopener noreferrer" class="cert-link">View PDF 📄</a>
             </li>
             <li>
               <span class="cert-title">Lean Six Sigma Yellow Belt</span>
-              <a href="Six Sigma Yellow Belt.pdf" target="_blank" class="cert-link">View PDF 📄</a>
+              <a href="Six Sigma Yellow Belt.pdf" target="_blank" rel="noopener noreferrer" class="cert-link">View PDF 📄</a>
             </li>
             <li>
               <span class="cert-title">Six Sigma White Belt (CSSC)</span>
-              <a href="Six Sigma White Belt Certification.pdf" target="_blank" class="cert-link">View PDF 📄</a>
+              <a href="Six Sigma White Belt Certification.pdf" target="_blank" rel="noopener noreferrer" class="cert-link">View PDF 📄</a>
             </li>
             <li>
               <span class="cert-title">Doha Metro Person in Charge (PIC)</span>
-              <a href="20260623_084635.jpg.jpeg" target="_blank" class="cert-link">Level 2 📄</a>
+              <a href="20260623_084635.jpg.jpeg" target="_blank" rel="noopener noreferrer" class="cert-link">Level 2 📄</a>
             </li>
             <li>
               <span class="cert-title">Work at Height Training</span>
-              <a href="20260613_200358.jpg.jpeg" target="_blank" class="cert-link">View 📄</a>
+              <a href="20260613_200358.jpg.jpeg" target="_blank" rel="noopener noreferrer" class="cert-link">View 📄</a>
             </li>
           </ul>
         </div>
@@ -488,9 +585,9 @@
           
           <!-- Engineering -->
           <div>
-            <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap;">
+            <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.5rem;">
               <div style="font-weight: 800; font-size: 1.2rem; color: var(--accent-secondary);">B.E., Mechanical Engineering</div>
-              <a href="Degree Certificate.pdf" target="_blank" class="cert-link">Degree PDF 📄</a>
+              <a href="Degree Certificate.pdf" target="_blank" rel="noopener noreferrer" class="cert-link">Degree PDF 📄</a>
             </div>
             <div style="color: var(--accent-tertiary); font-weight: 700; margin: 0.5rem 0 1rem 0;">Sri Ramakrishna Engineering College, Coimbatore</div>
             <div style="background: rgba(0,0,0,0.05); padding: 0.8rem; border-radius: 8px; color: var(--text-main); font-weight: 600; font-size: 0.95rem;">
@@ -502,9 +599,9 @@
 
           <!-- 12th Standard -->
           <div>
-            <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap;">
+            <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.5rem;">
               <div style="font-weight: 800; font-size: 1.2rem; color: var(--accent-secondary);">12th, Computer Science</div>
-              <a href="HSC_Marksheet.pdf" target="_blank" class="cert-link">Marksheet PDF 📄</a>
+              <a href="HSC_Marksheet.pdf" target="_blank" rel="noopener noreferrer" class="cert-link">Marksheet PDF 📄</a>
             </div>
             <div style="color: var(--accent-tertiary); font-weight: 700; margin: 0.5rem 0 1rem 0;">Keins Matric. Her. Sec. School, Vallioor</div>
             <div style="background: rgba(0,0,0,0.05); padding: 0.8rem; border-radius: 8px; color: var(--text-main); font-weight: 600; font-size: 0.95rem;">
@@ -516,9 +613,9 @@
 
           <!-- 10th Standard -->
           <div>
-            <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap;">
+            <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.5rem;">
               <div style="font-weight: 800; font-size: 1.2rem; color: var(--accent-secondary);">10th Standard</div>
-              <a href="SSC_Marksheet.pdf" target="_blank" class="cert-link">Marksheet PDF 📄</a>
+              <a href="SSC_Marksheet.pdf" target="_blank" rel="noopener noreferrer" class="cert-link">Marksheet PDF 📄</a>
             </div>
             <div style="color: var(--accent-tertiary); font-weight: 700; margin: 0.5rem 0 1rem 0;">Keins Matric. Her. Sec. School, Vallioor</div>
             <div style="background: rgba(0,0,0,0.05); padding: 0.8rem; border-radius: 8px; color: var(--text-main); font-weight: 600; font-size: 0.95rem;">
@@ -533,15 +630,21 @@
       <h2 class="section-title">Site & Experience Gallery</h2>
       <div class="gallery-grid">
         <div class="gallery-card">
-          <img src="915.jpg" alt="Profile & Site Focus" />
+          <div class="gallery-img-wrapper">
+            <img src="915.jpg" alt="Profile & Site Focus" />
+          </div>
           <div class="gallery-caption">Profile & Site Readiness</div>
         </div>
         <div class="gallery-card">
-          <img src="20260530_073725.jpg" alt="Doha Metro Depot" />
+          <div class="gallery-img-wrapper">
+            <img src="20260530_073725.jpg" alt="Doha Metro Depot" />
+          </div>
           <div class="gallery-caption">Doha Metro Depot</div>
         </div>
         <div class="gallery-card">
-          <img src="20260607_230936.jpg.jpeg" alt="Full PPE - Doha Metro" />
+          <div class="gallery-img-wrapper">
+            <img src="20260607_230936.jpg.jpeg" alt="Full PPE - Doha Metro" />
+          </div>
           <div class="gallery-caption">Full PPE - Doha Metro</div>
         </div>
       </div>
@@ -563,7 +666,7 @@
           <div class="contact-item">
             <span class="country-label">🇮🇳 India:</span>
             <a href="tel:+919940768744" class="contact-link">+91 9940768744</a>
-            <a href="https://wa.me/919940768744" target="_blank" class="wa-icon" title="Chat on WhatsApp">
+            <a href="https://wa.me/919940768744" target="_blank" rel="noopener noreferrer" class="wa-icon" title="Chat on WhatsApp" aria-label="WhatsApp India">
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
                 <path d="M380.9 97.1C339 55.1 283.2 32 223.9 32c-122.4 0-222 99.6-222 222 0 39.1 10.2 77.3 29.6 111L0 480l117.7-30.9c32.4 17.7 68.9 27 106.1 27h.1c122.3 0 224.1-99.6 224.1-222 0-59.3-25.2-115-67.1-157zM223.9 414.4c-33.1 0-65.5-8.9-94-25.7l-6.7-4-69.9 18.3L72 334.1l-4.4-7c-18.5-29.4-28.2-63.3-28.2-98.2 0-101.7 82.8-184.5 184.6-184.5 49.3 0 95.6 19.2 130.4 54.1 34.8 34.9 56.2 81.2 56.1 130.5 0 101.8-84.9 184.6-186.6 184.6zm101.2-138.2c-5.5-2.8-32.8-16.2-37.9-18-5.1-1.9-8.8-2.8-12.5 2.8-3.7 5.6-14.3 18-17.6 21.8-3.2 3.7-6.5 4.2-12 1.4-32.6-16.3-54-29.1-75.5-66-2.1-3.6 2.1-3.2 7.6-14s10.9-16.8 15.3-22.4c1.9-2.4 1-4.7-.4-7.5-1.4-2.8-12.5-30.1-17.1-41.2-4.5-10.8-9.1-9.3-12.5-9.5-3.2-.2-6.9-.2-10.6-.2-3.7 0-9.7 1.4-14.8 6.9-5.1 5.6-19.4 19-19.4 46.3 0 27.3 19.9 53.7 22.6 57.4 2.8 3.7 39.1 59.7 94.8 83.8 35.2 15.2 49 16.5 66.6 13.9 10.7-1.6 32.8-13.4 37.4-26.4 4.6-13 4.6-24.1 3.2-26.4-1.3-2.5-5-3.9-10.5-6.6z"/>
               </svg>
@@ -574,7 +677,7 @@
           <div class="contact-item">
             <span class="country-label">🇶🇦 Qatar:</span>
             <a href="tel:+97477023054" class="contact-link">+974 77023054</a>
-            <a href="https://wa.me/97477023054" target="_blank" class="wa-icon" title="Chat on WhatsApp">
+            <a href="https://wa.me/97477023054" target="_blank" rel="noopener noreferrer" class="wa-icon" title="Chat on WhatsApp" aria-label="WhatsApp Qatar">
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
                 <path d="M380.9 97.1C339 55.1 283.2 32 223.9 32c-122.4 0-222 99.6-222 222 0 39.1 10.2 77.3 29.6 111L0 480l117.7-30.9c32.4 17.7 68.9 27 106.1 27h.1c122.3 0 224.1-99.6 224.1-222 0-59.3-25.2-115-67.1-157zM223.9 414.4c-33.1 0-65.5-8.9-94-25.7l-6.7-4-69.9 18.3L72 334.1l-4.4-7c-18.5-29.4-28.2-63.3-28.2-98.2 0-101.7 82.8-184.5 184.6-184.5 49.3 0 95.6 19.2 130.4 54.1 34.8 34.9 56.2 81.2 56.1 130.5 0 101.8-84.9 184.6-186.6 184.6zm101.2-138.2c-5.5-2.8-32.8-16.2-37.9-18-5.1-1.9-8.8-2.8-12.5 2.8-3.7 5.6-14.3 18-17.6 21.8-3.2 3.7-6.5 4.2-12 1.4-32.6-16.3-54-29.1-75.5-66-2.1-3.6 2.1-3.2 7.6-14s10.9-16.8 15.3-22.4c1.9-2.4 1-4.7-.4-7.5-1.4-2.8-12.5-30.1-17.1-41.2-4.5-10.8-9.1-9.3-12.5-9.5-3.2-.2-6.9-.2-10.6-.2-3.7 0-9.7 1.4-14.8 6.9-5.1 5.6-19.4 19-19.4 46.3 0 27.3 19.9 53.7 22.6 57.4 2.8 3.7 39.1 59.7 94.8 83.8 35.2 15.2 49 16.5 66.6 13.9 10.7-1.6 32.8-13.4 37.4-26.4 4.6-13 4.6-24.1 3.2-26.4-1.3-2.5-5-3.9-10.5-6.6z"/>
               </svg>
@@ -592,21 +695,21 @@
   <!-- FLOATING SOCIAL MEDIA ICONS (BOTTOM RIGHT) -->
   <div class="social-floating">
     <!-- LinkedIn -->
-    <a href="https://www.linkedin.com/in/jose-nithin-b24a271bb?utm_source=share_via&utm_content=profile&utm_medium=member_android" target="_blank" title="LinkedIn">
+    <a href="https://www.linkedin.com/in/jose-nithin-b24a271bb?utm_source=share_via&utm_content=profile&utm_medium=member_android" target="_blank" rel="noopener noreferrer" title="LinkedIn" aria-label="LinkedIn Profile">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" fill="currentColor" width="22" height="22">
         <path d="M416 32H31.9C14.3 32 0 46.5 0 64.3v383.4C0 465.5 14.3 480 31.9 480H416c17.6 0 32-14.5 32-32.3V64.3c0-17.8-14.4-32.3-32-32.3zM135.4 416H69V202.2h66.5V416zm-33.2-243c-21.3 0-38.5-17.3-38.5-38.5S80.9 96 102.2 96c21.2 0 38.5 17.3 38.5 38.5 0 21.3-17.2 38.5-38.5 38.5zm282.1 243h-66.4V312c0-24.8-.5-56.7-34.5-56.7-34.6 0-39.9 27-39.9 54.9V416h-66.4V202.2h63.7v29.2h.9c8.9-16.8 30.6-34.5 62.9-34.5 67.2 0 79.7 44.3 79.7 101.9V416z"/>
       </svg>
     </a>
     
     <!-- Instagram -->
-    <a href="https://www.instagram.com/jose_nithin_cr7?stkn=cXAzeHJ0OXJvYzR3" target="_blank" title="Instagram">
+    <a href="https://www.instagram.com/jose_nithin_cr7?stkn=cXAzeHJ0OXJvYzR3" target="_blank" rel="noopener noreferrer" title="Instagram" aria-label="Instagram Profile">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" fill="currentColor" width="22" height="22">
         <path d="M224.1 141c-63.6 0-114.9 51.3-114.9 114.9s51.3 114.9 114.9 114.9S339 319.5 339 255.9 287.7 141 224.1 141zm0 189.6c-41.1 0-74.7-33.5-74.7-74.7s33.5-74.7 74.7-74.7 74.7 33.5 74.7 74.7-33.6 74.7-74.7 74.7zm146.4-194.3c0 14.9-12 26.8-26.8 26.8-14.9 0-26.8-12-26.8-26.8s12-26.8 26.8-26.8 26.8 12 26.8 26.8zm76.1 27.2c-1.7-35.9-9.9-67.7-36.2-93.9-26.2-26.2-58-34.4-93.9-36.2-37-2.1-147.9-2.1-184.9 0-35.8 1.7-67.6 9.9-93.9 36.1s-34.4 58-36.2 93.9-2.1 37-2.1 147.9 0 184.9 1.7 35.9 9.9 67.7 36.2 93.9s58 34.4 93.9 36.2c37 2.1 147.9 2.1 184.9 0 35.9-1.7 67.7-9.9 93.9-36.2 26.2-26.2 34.4-58 36.2-93.9 2.1-37 2.1-147.8 0-184.8zM398.8 388c-7.8 19.6-22.9 34.7-42.6 42.6-29.5 11.7-99.5 9-132.1 9s-102.7 2.6-132.1-9c-19.6-7.8-34.7-22.9-42.6-42.6-11.7-29.5-9-99.5-9-132.1s-2.6-102.7 9-132.1c7.8-19.6 22.9-34.7 42.6-42.6 29.5-11.7 99.5-9 132.1-9s102.7-2.6 132.1 9c19.6 7.8 34.7 22.9 42.6 42.6 11.7 29.5 9 99.5 9 132.1s2.7 102.7-9 132.1z"/>
       </svg>
     </a>
     
     <!-- X (Twitter) -->
-    <a href="https://x.com/Jose_Nithin_A" target="_blank" title="X (Twitter)">
+    <a href="https://x.com/Jose_Nithin_A" target="_blank" rel="noopener noreferrer" title="X (Twitter)" aria-label="X Profile">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" fill="currentColor" width="22" height="22">
         <path d="M389.2 48h70.6L305.6 224.2 487 464H345L233.7 318.6 106.5 464H35.8L200.7 275.5 26.8 48H172.4L272.9 180.9 389.2 48zM364.4 421.8h39.1L151.1 88h-42L364.4 421.8z"/>
       </svg>
@@ -614,25 +717,54 @@
   </div>
 
   <script>
-    window.addEventListener('scroll', () => {
+    let ticking = false;
+
+    function updateIntroScroll() {
       const scrollY = window.scrollY;
       const introFixed = document.getElementById('intro-fixed');
       const zoomContainer = document.getElementById('zoom-container');
+      const letterJ = document.getElementById('letter-j');
+      const letterSE = document.getElementById('letter-se');
+      const scrollIndicator = document.getElementById('scroll-indicator');
       const windowHeight = window.innerHeight;
 
-      // Calculate progress of scroll based on the height of our scroll spacer
+      // Calculate progress of scroll based on scroll spacer height
       let scrollProgress = scrollY / (windowHeight * 0.7); 
-      
-      // Cap the progress at 1
       if (scrollProgress > 1) scrollProgress = 1;
 
-      // The circular container scales up smoothly as you scroll
+      // Scale the circular image (The 'O')
       let scale = 1 + (scrollProgress * 4.5); 
       zoomContainer.style.transform = `scale(${scale})`;
 
-      // Fade out the entire introductory layer smoothly
+      // Move 'J' to the left and 'SE' to the right as user scrolls down
+      // Multiplying by 25vw gives it enough distance to move out of the way of the expanding image
+      let letterDisplacement = scrollProgress * 25; 
+      letterJ.style.transform = `translateX(-${letterDisplacement}vw)`;
+      letterSE.style.transform = `translateX(${letterDisplacement}vw)`;
+
+      // Fade out scroll indicator rapidly as soon as scrolling starts
+      let indicatorOpacity = 1 - (scrollY / (windowHeight * 0.15));
+      scrollIndicator.style.opacity = Math.max(0, indicatorOpacity);
+
+      // Fade out intro layer smoothly
       let opacity = 1 - scrollProgress;
       introFixed.style.opacity = Math.max(0, opacity);
+
+      // Hide intro completely when scrolled past to allow interaction with portfolio below
+      if (opacity <= 0) {
+        introFixed.style.visibility = 'hidden';
+      } else {
+        introFixed.style.visibility = 'visible';
+      }
+
+      ticking = false;
+    }
+
+    window.addEventListener('scroll', () => {
+      if (!ticking) {
+        window.requestAnimationFrame(updateIntroScroll);
+        ticking = true;
+      }
     });
   </script>
 </body>
