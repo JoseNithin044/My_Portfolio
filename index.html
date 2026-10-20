@@ -1,17 +1,27 @@
 <!DOCTYPE html>
 <html lang="en" data-theme="light">
 <head>
-  <!-- Google tag (gtag.js) -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-EQ4YLDN7DQ"></script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="description" content="Jose Nithin Antony Arockia Raja — Civil & Mechanical QA/QC Inspector, Site Supervisor, and Oracle PL/SQL Developer based in Qatar. Open to QA/QC, site supervision, and database engineering roles." />
+  <meta name="theme-color" content="#11212D" />
+  <title>Jose Nithin Antony Arockia Raja - Portfolio</title>
+
+  <!-- Preconnect to external origins -->
+  <link rel="preconnect" href="https://www.googletagmanager.com" crossorigin />
+  <link rel="dns-prefetch" href="https://www.googletagmanager.com" />
+
+  <!-- Preload hero image for faster LCP -->
+  <link rel="preload" as="image" href="915.jpg" fetchpriority="high" />
+
+  <!-- Google tag (gtag.js) — loaded after page is interactive -->
   <script>
     window.dataLayer = window.dataLayer || [];
     function gtag(){dataLayer.push(arguments);}
     gtag('js', new Date());
     gtag('config', 'G-EQ4YLDN7DQ');
   </script>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-  <title>Jose Nithin Antony Arockia Raja - Portfolio</title>
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-EQ4YLDN7DQ"></script>
   <style>
     :root {
       /* Light Slate Glass Theme (Default) */
@@ -57,9 +67,7 @@
     }
 
     body {
-      background: linear-gradient(-45deg, #CCD0CF, #9BA8AB, #CCD0CF, #ffffff);
-      background-size: 400% 400%;
-      animation: gradientBG 15s ease infinite;
+      background: #CCD0CF;
       color: var(--text-main);
       font-family: var(--font-family);
       line-height: 1.6;
@@ -69,9 +77,23 @@
       transition: color 0.3s ease;
     }
 
+    @media (prefers-reduced-motion: no-preference) {
+      body {
+        background: linear-gradient(-45deg, #CCD0CF, #9BA8AB, #CCD0CF, #ffffff);
+        background-size: 400% 400%;
+        animation: gradientBG 15s ease infinite;
+      }
+    }
+
     [data-theme="dark"] body {
-      background: linear-gradient(-45deg, #06141B, #11212D, #0a1924, #1b2e3c);
-      background-size: 400% 400%;
+      background: #06141B;
+    }
+
+    @media (prefers-reduced-motion: no-preference) {
+      [data-theme="dark"] body {
+        background: linear-gradient(-45deg, #06141B, #11212D, #0a1924, #1b2e3c);
+        background-size: 400% 400%;
+      }
     }
 
     @keyframes gradientBG {
@@ -1168,7 +1190,7 @@
     <div class="hero-intro-container">
       <div class="static-letter" id="letter-j">J</div>
       <div class="centered-image-container" id="zoom-container">
-        <img src="915.jpg" id="zoom-image" alt="Jose Nithin">
+        <img src="915.jpg" id="zoom-image" alt="Jose Nithin" width="250" height="250" fetchpriority="high" decoding="sync" />
       </div>
       <div class="static-letter" id="letter-se">SE</div>
     </div>
@@ -1515,7 +1537,7 @@
              data-viewer-type="image"
              data-viewer-title="Doha Metro Depot">
           <div class="gallery-img-wrapper">
-            <img src="20260530_073725.jpg" alt="Doha Metro Depot" loading="lazy" />
+            <img src="20260530_073725.jpg" alt="Doha Metro Depot" loading="lazy" decoding="async" width="800" height="600" />
             <span class="gallery-zoom-hint">🔍 Click to Expand</span>
           </div>
           <div class="gallery-caption">Doha Metro Depot</div>
@@ -1525,7 +1547,7 @@
              data-viewer-type="image"
              data-viewer-title="Full PPE - Doha Metro">
           <div class="gallery-img-wrapper">
-            <img src="20260607_230936.jpg.jpeg" alt="Full PPE - Doha Metro" loading="lazy" />
+            <img src="20260607_230936.jpg.jpeg" alt="Full PPE - Doha Metro" loading="lazy" decoding="async" width="800" height="600" />
             <span class="gallery-zoom-hint">🔍 Click to Expand</span>
           </div>
           <div class="gallery-caption">Full PPE - Doha Metro</div>
