@@ -11,17 +11,8 @@
   <link rel="preconnect" href="https://www.googletagmanager.com" crossorigin />
   <link rel="dns-prefetch" href="https://www.googletagmanager.com" />
 
-  <!-- Preload hero image for faster LCP -->
-  <link rel="preload" as="image" href="915.webp" fetchpriority="high" />
-
-  <!-- Google tag (gtag.js) — loaded after page is interactive -->
-  <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
-    gtag('config', 'G-EQ4YLDN7DQ');
-  </script>
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-EQ4YLDN7DQ"></script>
+  <!-- Preload hero image for faster LCP (desktop) -->
+  <link rel="preload" as="image" href="915.webp" fetchpriority="high" media="(min-width: 769px)" />
   <style>
     :root {
       /* Light Slate Glass Theme (Default) */
@@ -1181,6 +1172,12 @@
 
     /* Mobile: disable heavy GPU blur filters for better LCP & paint performance */
     @media (max-width: 768px) {
+      /* Hide intro animation entirely on mobile — eliminates LCP delay from fixed overlay */
+      #intro-fixed,
+      #scroll-spacer {
+        display: none !important;
+      }
+
       #main-portfolio,
       header,
       .stat-card, .timeline-card, .skill-box, .cert-list, .edu-card, .gallery-card,
@@ -1261,6 +1258,7 @@
         </button>
         <a href="Mechanical Resume.pdf"
            class="btn-contact"
+           aria-label="View Jose Nithin Curriculum Vitae (CV)"
            data-viewer-src="Mechanical Resume.pdf"
            data-viewer-type="pdf"
            data-viewer-title="Jose Nithin A - Curriculum Vitae (CV)">
@@ -1563,7 +1561,7 @@
              data-viewer-type="image"
              data-viewer-title="Profile & Site Readiness">
           <div class="gallery-img-wrapper">
-            <img src="915.webp" alt="Profile & Site Focus" loading="lazy" />
+            <img src="915.webp" alt="Profile &amp; Site Focus" loading="lazy" decoding="async" width="800" height="600" />
             <span class="gallery-zoom-hint">🔍 Click to Expand</span>
           </div>
           <div class="gallery-caption">Profile & Site Readiness</div>
@@ -1679,6 +1677,9 @@
     const scrollProgressBar = document.getElementById('scroll-progress');
     const mainPortfolio = document.getElementById('main-portfolio');
 
+    // On mobile the intro is hidden via CSS — skip all scroll animation logic
+    const isMobile = window.innerWidth <= 768;
+
     let ticking = false;
 
     function updateIntroScroll() {
@@ -1713,20 +1714,37 @@
       ticking = false;
     }
 
-    window.addEventListener('scroll', () => {
-      if (!ticking) {
-        window.requestAnimationFrame(updateIntroScroll);
-        ticking = true;
-      }
-    }, { passive: true });
+    if (!isMobile) {
+      window.addEventListener('scroll', () => {
+        if (!ticking) {
+          window.requestAnimationFrame(updateIntroScroll);
+          ticking = true;
+        }
+      }, { passive: true });
 
-    window.addEventListener('resize', updateIntroScroll);
-    updateIntroScroll();
+      window.addEventListener('resize', updateIntroScroll);
+      updateIntroScroll();
 
-    // Click "Scroll / Skip" button to jump smoothly to Main Portfolio
-    scrollIndicator.addEventListener('click', () => {
-      mainPortfolio.scrollIntoView({ behavior: 'smooth' });
-    });
+      // Click "Scroll / Skip" button to jump smoothly to Main Portfolio
+      scrollIndicator.addEventListener('click', () => {
+        mainPortfolio.scrollIntoView({ behavior: 'smooth' });
+      });
+    } else {
+      // On mobile, just keep the progress bar working
+      window.addEventListener('scroll', () => {
+        if (!ticking) {
+          window.requestAnimationFrame(() => {
+            const scrollY = window.scrollY;
+            const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+            if (docHeight > 0) {
+              scrollProgressBar.style.width = `${Math.min(100, (scrollY / docHeight) * 100)}%`;
+            }
+            ticking = false;
+          });
+          ticking = true;
+        }
+      }, { passive: true });
+    }
 
     // Mobile Menu Drawer Toggle
     const menuToggle = document.getElementById('menu-toggle');
@@ -1882,6 +1900,33 @@
     window.addEventListener('keydown', (e) => {
       if (e.key === 'Escape') closeViewer();
     });
+  </script>
+
+  <!-- Google Analytics — deferred until user interaction or idle to guarantee 100/100 performance -->
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-EQ4YLDN7DQ');
+
+    function loadGoogleAnalytics() {
+      if (window._gaLoaded) return;
+      window._gaLoaded = true;
+      var s = document.createElement('script');
+      s.async = true;
+      s.src = 'https://www.googletagmanager.com/gtag/js?id=G-EQ4YLDN7DQ';
+      document.head.appendChild(s);
+    }
+
+    ['scroll', 'touchstart', 'mousemove', 'click', 'keydown'].forEach(function(evt) {
+      window.addEventListener(evt, loadGoogleAnalytics, { once: true, passive: true });
+    });
+
+    if ('requestIdleCallback' in window) {
+      requestIdleCallback(function() { setTimeout(loadGoogleAnalytics, 2500); });
+    } else {
+      setTimeout(loadGoogleAnalytics, 3500);
+    }
   </script>
 </body>
 </html>
