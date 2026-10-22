@@ -11,8 +11,8 @@
   <link rel="preconnect" href="https://www.googletagmanager.com" crossorigin />
   <link rel="dns-prefetch" href="https://www.googletagmanager.com" />
 
-  <!-- Preload hero image for faster LCP (desktop) -->
-  <link rel="preload" as="image" href="915.webp" fetchpriority="high" media="(min-width: 769px)" />
+  <!-- Preload hero image for faster LCP (all viewports) -->
+  <link rel="preload" as="image" href="915.webp" fetchpriority="high" />
   <style>
     :root {
       /* Light Slate Glass Theme (Default) */
@@ -1172,10 +1172,26 @@
 
     /* Mobile: disable heavy GPU blur filters for better LCP & paint performance */
     @media (max-width: 768px) {
-      /* Hide intro animation entirely on mobile — eliminates LCP delay from fixed overlay */
-      #intro-fixed,
+      /* Mobile intro: simplified version — no zoom animation, just fade out on scroll/tap */
+      #intro-fixed {
+        pointer-events: auto; /* allow tap interactions */
+      }
+
+      /* Reduce scroll-spacer height on mobile (shorter scroll distance to reveal content) */
       #scroll-spacer {
-        display: none !important;
+        height: 90vh;
+      }
+
+      /* Smaller image on mobile */
+      .centered-image-container {
+        width: clamp(90px, 28vmin, 160px);
+        height: clamp(90px, 28vmin, 160px);
+        margin: 0;
+      }
+
+      /* Disable the background grid on mobile for paint performance */
+      #intro-fixed::before {
+        display: none;
       }
 
       #main-portfolio,
@@ -1677,12 +1693,12 @@
     const scrollProgressBar = document.getElementById('scroll-progress');
     const mainPortfolio = document.getElementById('main-portfolio');
 
-    // On mobile the intro is hidden via CSS — skip all scroll animation logic
     const isMobile = window.innerWidth <= 768;
 
     let ticking = false;
 
-    function updateIntroScroll() {
+    // Desktop: full zoom + letter split animation
+    function updateIntroScrollDesktop() {
       const scrollY = window.scrollY;
       const windowHeight = window.innerHeight;
       const docHeight = document.documentElement.scrollHeight - windowHeight;
@@ -1714,36 +1730,61 @@
       ticking = false;
     }
 
+    // Mobile: simplified fade-out only (no zoom/split — saves GPU, keeps LCP fast)
+    function updateIntroScrollMobile() {
+      const scrollY = window.scrollY;
+      const windowHeight = window.innerHeight;
+      const docHeight = document.documentElement.scrollHeight - windowHeight;
+
+      // Top progress bar
+      if (docHeight > 0) {
+        scrollProgressBar.style.width = `${Math.min(100, (scrollY / docHeight) * 100)}%`;
+      }
+
+      // Simple fade out over first 60% of scroll-spacer height
+      let scrollProgress = scrollY / (windowHeight * 0.6);
+      if (scrollProgress > 1) scrollProgress = 1;
+
+      const indicatorOpacity = 1 - (scrollY / (windowHeight * 0.25));
+      scrollIndicator.style.opacity = Math.max(0, indicatorOpacity);
+      scrollIndicator.style.pointerEvents = indicatorOpacity <= 0 ? 'none' : 'auto';
+
+      const opacity = 1 - scrollProgress;
+      introFixed.style.opacity = Math.max(0, opacity);
+      introFixed.style.visibility = opacity <= 0 ? 'hidden' : 'visible';
+
+      ticking = false;
+    }
+
     if (!isMobile) {
       window.addEventListener('scroll', () => {
         if (!ticking) {
-          window.requestAnimationFrame(updateIntroScroll);
+          window.requestAnimationFrame(updateIntroScrollDesktop);
           ticking = true;
         }
       }, { passive: true });
 
-      window.addEventListener('resize', updateIntroScroll);
-      updateIntroScroll();
+      window.addEventListener('resize', updateIntroScrollDesktop);
+      updateIntroScrollDesktop();
 
       // Click "Scroll / Skip" button to jump smoothly to Main Portfolio
       scrollIndicator.addEventListener('click', () => {
         mainPortfolio.scrollIntoView({ behavior: 'smooth' });
       });
     } else {
-      // On mobile, just keep the progress bar working
       window.addEventListener('scroll', () => {
         if (!ticking) {
-          window.requestAnimationFrame(() => {
-            const scrollY = window.scrollY;
-            const docHeight = document.documentElement.scrollHeight - window.innerHeight;
-            if (docHeight > 0) {
-              scrollProgressBar.style.width = `${Math.min(100, (scrollY / docHeight) * 100)}%`;
-            }
-            ticking = false;
-          });
+          window.requestAnimationFrame(updateIntroScrollMobile);
           ticking = true;
         }
       }, { passive: true });
+
+      updateIntroScrollMobile();
+
+      // Tap "Scroll / Skip" on mobile — instant jump
+      scrollIndicator.addEventListener('click', () => {
+        mainPortfolio.scrollIntoView({ behavior: 'smooth' });
+      });
     }
 
     // Mobile Menu Drawer Toggle
