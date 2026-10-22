@@ -124,6 +124,67 @@
       transition: width 0.08s linear;
     }
 
+    /* Custom Cursor (Desktop Only) */
+    @media (hover: hover) and (pointer: fine) {
+      #cursor-dot,
+      #cursor-ring {
+        position: fixed;
+        top: 0;
+        left: 0;
+        border-radius: 50%;
+        pointer-events: none;
+        z-index: 10000;
+        opacity: 0;
+        will-change: transform;
+      }
+
+      #cursor-dot {
+        width: 8px;
+        height: 8px;
+        background: var(--accent-secondary);
+        margin-top: -4px;
+        margin-left: -4px;
+        transition: opacity 0.25s ease, background 0.3s ease;
+      }
+
+      [data-theme="dark"] #cursor-dot {
+        background: #38BDF8;
+        box-shadow: 0 0 10px rgba(56, 189, 248, 0.8);
+      }
+
+      #cursor-ring {
+        width: 36px;
+        height: 36px;
+        border: 1.5px solid var(--accent-secondary);
+        margin-top: -18px;
+        margin-left: -18px;
+        transition: opacity 0.3s ease, border-color 0.25s ease, background-color 0.25s ease, box-shadow 0.25s ease;
+      }
+
+      [data-theme="dark"] #cursor-ring {
+        border-color: rgba(56, 189, 248, 0.55);
+        box-shadow: 0 0 14px rgba(56, 189, 248, 0.25);
+      }
+
+      body.cursor-hover #cursor-ring {
+        background-color: rgba(37, 55, 69, 0.1);
+        border-color: var(--accent-primary);
+      }
+
+      [data-theme="dark"] body.cursor-hover #cursor-ring {
+        background-color: rgba(56, 189, 248, 0.15);
+        border-color: #7DD3FC;
+        box-shadow: 0 0 20px rgba(56, 189, 248, 0.45);
+      }
+    }
+
+    @media (hover: none) or (pointer: coarse) {
+      #cursor-dot,
+      #cursor-ring {
+        display: none !important;
+      }
+    }
+
     /* --- Scroll Animation Intro Section (All-Orientation Optimized) --- */
     #intro-fixed {
       position: fixed;
@@ -1391,6 +1452,10 @@
   <!-- Top Reading Progress Bar -->
   <div id="scroll-progress"></div>
 
+  <!-- Custom Cursor Elements (Desktop Only) -->
+  <div id="cursor-dot" aria-hidden="true"></div>
+  <div id="cursor-ring" aria-hidden="true"></div>
+
   <!-- Scroll Intro with 'J', Circular Image as 'O', 'SE' -->
   <div id="intro-fixed">
     <div class="hero-intro-container">
@@ -2170,6 +2235,89 @@
     window.addEventListener('keydown', (e) => {
       if (e.key === 'Escape') closeViewer();
     });
+
+    // Custom Smooth Glowing Dot & Trailing Ring Cursor (Desktop Only)
+    if (window.matchMedia('(hover: hover) and (pointer: fine)').matches) {
+      const cursorDot = document.getElementById('cursor-dot');
+      const cursorRing = document.getElementById('cursor-ring');
+
+      if (cursorDot && cursorRing) {
+        let mouseX = -100;
+        let mouseY = -100;
+        let ringX = -100;
+        let ringY = -100;
+        let isVisible = false;
+        let isHovered = false;
+        let isClicking = false;
+        let currentScale = 1;
+
+        window.addEventListener('mousemove', (e) => {
+          mouseX = e.clientX;
+          mouseY = e.clientY;
+
+          if (!isVisible) {
+            isVisible = true;
+            ringX = mouseX;
+            ringY = mouseY;
+            cursorDot.style.opacity = '1';
+            cursorRing.style.opacity = '1';
+          }
+
+          const dotScale = isHovered ? 0.65 : 1;
+          cursorDot.style.transform = `translate3d(${mouseX}px, ${mouseY}px, 0) scale(${dotScale})`;
+        }, { passive: true });
+
+        function animateCursor() {
+          ringX += (mouseX - ringX) * 0.18;
+          ringY += (mouseY - ringY) * 0.18;
+
+          const targetScale = isHovered ? (isClicking ? 1.25 : 1.55) : (isClicking ? 0.8 : 1);
+          currentScale += (targetScale - currentScale) * 0.2;
+
+          cursorRing.style.transform = `translate3d(${ringX}px, ${ringY}px, 0) scale(${currentScale})`;
+          requestAnimationFrame(animateCursor);
+        }
+        requestAnimationFrame(animateCursor);
+
+        document.addEventListener('mouseleave', () => {
+          isVisible = false;
+          cursorDot.style.opacity = '0';
+          cursorRing.style.opacity = '0';
+        });
+
+        document.addEventListener('mouseenter', () => {
+          isVisible = true;
+          cursorDot.style.opacity = '1';
+          cursorRing.style.opacity = '1';
+        });
+
+        const interactiveSelector = 'a, button, [role="button"], .filter-btn, .cert-link, .tag, .gallery-card, .contact-item, input, textarea, select';
+
+        document.addEventListener('mouseover', (e) => {
+          if (e.target.closest(interactiveSelector)) {
+            isHovered = true;
+            document.body.classList.add('cursor-hover');
+            cursorDot.style.transform = `translate3d(${mouseX}px, ${mouseY}px, 0) scale(0.65)`;
+          }
+        });
+
+        document.addEventListener('mouseout', (e) => {
+          if (e.target.closest(interactiveSelector)) {
+            isHovered = false;
+            document.body.classList.remove('cursor-hover');
+            cursorDot.style.transform = `translate3d(${mouseX}px, ${mouseY}px, 0) scale(1)`;
+          }
+        });
+
+        window.addEventListener('mousedown', () => {
+          isClicking = true;
+        });
+
+        window.addEventListener('mouseup', () => {
+          isClicking = false;
+        });
+      }
+    }
   </script>
 
   <!-- Google Analytics — deferred until user interaction or idle to guarantee 100/100 performance -->
