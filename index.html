@@ -12,7 +12,7 @@
   <link rel="dns-prefetch" href="https://www.googletagmanager.com" />
 
   <!-- Preload hero image for faster LCP (all viewports) -->
-  <link rel="preload" as="image" href="915.webp" fetchpriority="high" />
+  <link rel="preload" as="image" href="Jose 1.webp" fetchpriority="high" />
   <style>
     :root {
       /* Light Slate Glass Theme (Default) */
@@ -355,6 +355,49 @@
       max-width: 1200px;
       margin: 0 auto;
       padding: clamp(3rem, 6vw, 5rem) 5%;
+    }
+
+    /* Hero two-column layout */
+    .hero-inner {
+      display: flex;
+      align-items: center;
+      gap: clamp(2rem, 5vw, 4rem);
+    }
+
+    .hero-text { flex: 1 1 0; min-width: 0; }
+
+    .hero-photo {
+      flex-shrink: 0;
+      width: clamp(160px, 22vw, 280px);
+      height: clamp(160px, 22vw, 280px);
+      border-radius: 50%;
+      overflow: hidden;
+      border: 4px solid var(--glass-border);
+      box-shadow: 0 12px 40px rgba(6, 20, 27, 0.18),
+                  0 0 0 6px rgba(255,255,255,0.25);
+      background: var(--card-inner-bg);
+    }
+
+    .hero-photo img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    @media (max-width: 768px) {
+      .hero-inner {
+        flex-direction: column-reverse;
+        align-items: center;
+        text-align: center;
+        gap: 1.5rem;
+      }
+      .hero-photo {
+        width: clamp(120px, 38vw, 180px);
+        height: clamp(120px, 38vw, 180px);
+      }
+      .hero-bio { max-width: 100%; }
+      .discipline-bar { justify-content: center; }
     }
 
     .hero-title-sub {
@@ -1261,7 +1304,7 @@
     <div class="hero-intro-container">
       <div class="static-letter" id="letter-j">J</div>
       <div class="centered-image-container" id="zoom-container">
-        <img src="915.webp" id="zoom-image" alt="Jose Nithin" width="250" height="250" fetchpriority="high" decoding="auto" loading="eager" />
+        <img src="Jose 1.webp" id="zoom-image" alt="Jose Nithin" width="250" height="250" fetchpriority="high" decoding="auto" loading="eager" />
       </div>
       <div class="static-letter" id="letter-se">SE</div>
     </div>
@@ -1309,19 +1352,27 @@
     </header>
 
     <section class="hero">
-      <div class="hero-title-sub">CIVIL & MECHANICAL QA/QC | SITE SUPERVISION | PL SQL DEVELOPMENT</div>
-      <h1 class="hero-title-main">Jose Nithin Antony Arockia Raja</h1>
-      <div class="hero-tagline">Two disciplines, one standard for the job.</div>
-      <p class="hero-bio">
-        I manage civil QA/QC and structural integrity, inspect mechanical pipelines to ASME/API standards, write PL/SQL for core banking systems, and run safe, compliant site operations as Person in Charge. Currently based in Qatar, open to civil/mechanical QA/QC, site supervision, and database engineering roles.
-      </p>
+      <div class="hero-inner">
+        <div class="hero-text">
+          <div class="hero-title-sub">CIVIL & MECHANICAL QA/QC | SITE SUPERVISION | PL SQL DEVELOPMENT</div>
+          <h1 class="hero-title-main">Jose Nithin Antony Arockia Raja</h1>
+          <div class="hero-tagline">Two disciplines, one standard for the job.</div>
+          <p class="hero-bio">
+            I manage civil QA/QC and structural integrity, inspect mechanical pipelines to ASME/API standards, write PL/SQL for core banking systems, and run safe, compliant site operations as Person in Charge. Currently based in Qatar, open to civil/mechanical QA/QC, site supervision, and database engineering roles.
+          </p>
 
-      <!-- Interactive Discipline Filter -->
-      <div class="discipline-bar" role="group" aria-label="Filter portfolio by discipline">
-        <span class="discipline-label">Focus View:</span>
-        <button class="filter-btn active" data-filter="all">All Disciplines</button>
-        <button class="filter-btn" data-filter="qaqc">Civil/Mech QA/QC & Site Ops</button>
-        <button class="filter-btn" data-filter="software">Oracle PL/SQL & Database</button>
+          <!-- Interactive Discipline Filter -->
+          <div class="discipline-bar" role="group" aria-label="Filter portfolio by discipline">
+            <span class="discipline-label">Focus View:</span>
+            <button class="filter-btn active" data-filter="all">All Disciplines</button>
+            <button class="filter-btn" data-filter="qaqc">Civil/Mech QA/QC & Site Ops</button>
+            <button class="filter-btn" data-filter="software">Oracle PL/SQL & Database</button>
+          </div>
+        </div>
+
+        <div class="hero-photo">
+          <img src="Jose 2.webp" alt="Jose Nithin Antony Arockia Raja" width="280" height="280" loading="eager" decoding="async" />
+        </div>
       </div>
 
       <div class="stats-grid">
@@ -1519,17 +1570,17 @@
             </li>
             <li>
               <span class="cert-title">Doha Metro Person in Charge (PIC)</span>
-              <a href="20260623_084635.jpg.webp"
+              <a href="PIC Card.webp"
                  class="cert-link"
-                 data-viewer-src="20260623_084635.jpg.webp"
+                 data-viewer-src="PIC Card.webp"
                  data-viewer-type="image"
                  data-viewer-title="Doha Metro Person in Charge (PIC) - Level 2">Level 2 🖼️</a>
             </li>
             <li>
               <span class="cert-title">Work at Height Training</span>
-              <a href="20260613_200358.jpg.webp"
+              <a href="Work at Height.webp"
                  class="cert-link"
-                 data-viewer-src="20260613_200358.jpg.webp"
+                 data-viewer-src="Work at Height.webp"
                  data-viewer-type="image"
                  data-viewer-title="Work at Height Training Certificate">View 🖼️</a>
             </li>
@@ -1595,31 +1646,31 @@
       <h2 class="section-title">Site & Experience Gallery</h2>
       <div class="gallery-grid">
         <div class="gallery-card reveal"
-             data-viewer-src="915.webp"
+             data-viewer-src="Jose 1.webp"
              data-viewer-type="image"
              data-viewer-title="Profile & Site Readiness">
           <div class="gallery-img-wrapper">
-            <img src="915.webp" alt="Profile &amp; Site Focus" loading="lazy" decoding="async" width="800" height="600" />
+            <img src="Jose 1.webp" alt="Profile &amp; Site Focus" loading="lazy" decoding="async" width="800" height="600" />
             <span class="gallery-zoom-hint">🔍 Click to Expand</span>
           </div>
           <div class="gallery-caption">Profile & Site Readiness</div>
         </div>
         <div class="gallery-card reveal"
-             data-viewer-src="20260530_073725.webp"
+             data-viewer-src="Site.webp"
              data-viewer-type="image"
              data-viewer-title="Doha Metro Depot">
           <div class="gallery-img-wrapper">
-            <img src="20260530_073725.webp" alt="Doha Metro Depot" loading="lazy" decoding="async" width="800" height="600" />
+            <img src="Site.webp" alt="Doha Metro Depot" loading="lazy" decoding="async" width="800" height="600" />
             <span class="gallery-zoom-hint">🔍 Click to Expand</span>
           </div>
           <div class="gallery-caption">Doha Metro Depot</div>
         </div>
         <div class="gallery-card reveal"
-             data-viewer-src="20260607_230936.jpg.webp"
+             data-viewer-src="Harness.webp"
              data-viewer-type="image"
              data-viewer-title="Full PPE - Doha Metro">
           <div class="gallery-img-wrapper">
-            <img src="20260607_230936.jpg.webp" alt="Full PPE - Doha Metro" loading="lazy" decoding="async" width="800" height="600" />
+            <img src="Harness.webp" alt="Full PPE - Doha Metro" loading="lazy" decoding="async" width="800" height="600" />
             <span class="gallery-zoom-hint">🔍 Click to Expand</span>
           </div>
           <div class="gallery-caption">Full PPE - Doha Metro</div>
