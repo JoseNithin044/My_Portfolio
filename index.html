@@ -725,6 +725,27 @@
       border-color: var(--accent-primary);
     }
 
+    .company-badge {
+      display: inline-block;
+      font-size: 0.72rem;
+      font-weight: 800;
+      letter-spacing: 0.6px;
+      padding: 0.2rem 0.55rem;
+      border-radius: 6px;
+      background: var(--card-inner-bg);
+      border: 1px solid var(--glass-border);
+      color: var(--accent-secondary);
+      margin-right: 0.5rem;
+      vertical-align: middle;
+      text-transform: uppercase;
+    }
+
+    [data-theme="dark"] .company-badge {
+      color: #38BDF8;
+      border-color: rgba(56, 189, 248, 0.3);
+      background: rgba(56, 189, 248, 0.08);
+    }
+
     .timeline-bullets {
       list-style-type: none;
       padding-left: 0;
@@ -778,6 +799,34 @@
       color: var(--accent-primary);
       box-shadow: 0 2px 8px rgba(6, 20, 27, 0.05);
       transition: all 0.2s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .skill-meter {
+      display: inline-flex;
+      gap: 2.5px;
+      align-items: center;
+    }
+
+    .skill-meter span {
+      width: 5px;
+      height: 5px;
+      border-radius: 50%;
+      background: var(--text-muted);
+      opacity: 0.35;
+      display: inline-block;
+    }
+
+    .skill-meter span.filled {
+      background: var(--accent-secondary);
+      opacity: 1;
+    }
+
+    [data-theme="dark"] .skill-meter span.filled {
+      background: #38BDF8;
+      box-shadow: 0 0 4px rgba(56, 189, 248, 0.8);
     }
 
     .tag:hover {
@@ -1159,6 +1208,90 @@
     .wa-icon:hover { transform: scale(1.15) rotate(5deg); }
     .wa-icon svg { fill: var(--accent-green); width: 24px; height: 24px; }
 
+    .copy-btn {
+      background: var(--card-inner-bg);
+      border: 1px solid var(--glass-border);
+      color: var(--text-muted);
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      margin-left: 0.35rem;
+      transition: all 0.2s ease;
+      flex-shrink: 0;
+    }
+
+    .copy-btn:hover {
+      background: var(--accent-secondary);
+      color: #ffffff;
+      transform: scale(1.1);
+    }
+
+    [data-theme="dark"] .copy-btn:hover {
+      color: #06141B;
+      background: #38BDF8;
+    }
+
+    /* Toast Notification */
+    #toast {
+      position: fixed;
+      bottom: 24px;
+      left: 50%;
+      transform: translateX(-50%) translateY(30px);
+      background: #06141B;
+      color: #F0F4F8;
+      border: 1px solid rgba(56, 189, 248, 0.4);
+      padding: 0.65rem 1.4rem;
+      border-radius: 30px;
+      font-size: 0.88rem;
+      font-weight: 700;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+      z-index: 10001;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.25s ease, transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      white-space: nowrap;
+    }
+
+    #toast.show {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }
+
+    [data-theme="dark"] #toast {
+      background: #11212D;
+      border-color: #38BDF8;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6), 0 0 15px rgba(56, 189, 248, 0.25);
+    }
+
+    /* Accessible Focus Ring */
+    a:focus-visible,
+    button:focus-visible,
+    .filter-btn:focus-visible,
+    .cert-link:focus-visible,
+    .tag:focus-visible,
+    .gallery-card:focus-visible,
+    .contact-item:focus-visible {
+      outline: 2px solid var(--accent-secondary);
+      outline-offset: 3px;
+    }
+
+    [data-theme="dark"] a:focus-visible,
+    [data-theme="dark"] button:focus-visible,
+    [data-theme="dark"] .filter-btn:focus-visible,
+    [data-theme="dark"] .cert-link:focus-visible,
+    [data-theme="dark"] .tag:focus-visible,
+    [data-theme="dark"] .gallery-card:focus-visible,
+    [data-theme="dark"] .contact-item:focus-visible {
+      outline-color: #38BDF8;
+    }
+
     .copyright {
       color: var(--text-muted);
       font-weight: 600;
@@ -1506,6 +1639,15 @@
            data-viewer-title="Jose Nithin A - Curriculum Vitae (CV)">
           <span>CV</span> 📄
         </a>
+        <a href="Mechanical Resume.pdf"
+           download="Jose_Nithin_Resume.pdf"
+           class="icon-btn"
+           title="Download CV directly (PDF)"
+           aria-label="Download CV directly">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" fill="currentColor" width="16" height="16">
+            <path d="M288 32c0-17.7-14.3-32-32-32s-32 14.3-32 32V274.7l-73.4-73.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l128 128c12.5 12.5 32.8 12.5 45.3 0l128-128c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L288 274.7V32zM64 352c-35.3 0-64 28.7-64 64v32c0 35.3 28.7 64 64 64H448c35.3 0 64-28.7 64-64V416c0-35.3-28.7-64-64-64H346.5l-45.3 45.3c-25 25-65.5 25-90.5 0L165.5 352H64zm368 56a24 24 0 1 1 0 48 24 24 0 1 1 0-48z"/>
+          </svg>
+        </a>
         <button class="icon-btn menu-toggle" id="menu-toggle" aria-label="Toggle Navigation Menu">
           ☰
         </button>
@@ -1569,7 +1711,7 @@
             <span class="timeline-date">Sep 2026 - Present</span>
           </div>
           <div class="timeline-company">
-            <a href="https://samasteel.qa/" target="_blank" rel="noopener noreferrer">SAMA Steel</a>, Qatar
+            <span class="company-badge">SAMA</span><a href="https://samasteel.qa/" target="_blank" rel="noopener noreferrer">SAMA Steel</a>, Qatar
           </div>
           <ul class="timeline-bullets">
             <li>Drafted, prepared, and managed comprehensive technical project documentation, including Subcontractor Prequalifications and Material Submittals.</li>
@@ -1587,7 +1729,7 @@
             <span class="timeline-date">May - Aug 2026</span>
           </div>
           <div class="timeline-company">
-            <a href="https://www.rkhqitarat.com/" target="_blank" rel="noopener noreferrer">RKH Qitarat</a>, Doha Metro Technician (MHI/MAS Energy)
+            <span class="company-badge">RKH</span><a href="https://www.rkhqitarat.com/" target="_blank" rel="noopener noreferrer">RKH Qitarat</a>, Doha Metro Technician (MHI/MAS Energy)
           </div>
           <ul class="timeline-bullets">
             <li>Led team of 15 technicians across daily mechanical maintenance and installation work, holding project timelines.</li>
@@ -1604,7 +1746,7 @@
             <span class="timeline-date">2024 - Apr 2026</span>
           </div>
           <div class="timeline-company">
-            <a href="https://www.ltm.com/" target="_blank" rel="noopener noreferrer">LTM</a>, Chennai (Oracle PL/SQL)
+            <span class="company-badge">LTM</span><a href="https://www.ltm.com/" target="_blank" rel="noopener noreferrer">LTM</a>, Chennai (Oracle PL/SQL)
           </div>
           <ul class="timeline-bullets">
             <li>Built PL/SQL packages, procedures, functions and triggers supporting core banking and transaction processing.</li>
@@ -1621,7 +1763,7 @@
             <span class="timeline-date">2023 - 2024</span>
           </div>
           <div class="timeline-company">
-            <a href="https://www.bhel.com/" target="_blank" rel="noopener noreferrer">Bharat Heavy Electricals Limited</a>, Trichy (Piping & Mechanical Components)
+            <span class="company-badge">BHEL</span><a href="https://www.bhel.com/" target="_blank" rel="noopener noreferrer">Bharat Heavy Electricals Limited</a>, Trichy (Piping & Mechanical Components)
           </div>
           <ul class="timeline-bullets">
             <li>Ran dimensional and visual inspections on piping/mechanical components to ASME / API specifications.</li>
@@ -1640,29 +1782,29 @@
         <div class="skill-box reveal" data-category="qaqc">
           <h3 style="color: var(--accent-secondary);">QA/QC & Site Operations</h3>
           <div class="tag-container">
-            <span class="tag">Civil QA/QC</span>
-            <span class="tag">AutoCAD</span>
-            <span class="tag">Material Submittals (MAR)</span>
-            <span class="tag">MIR & WIR</span>
-            <span class="tag">ASME / API / ASTM</span>
-            <span class="tag">Welding Inspection</span>
-            <span class="tag">Permit to Work (PTW)</span>
-            <span class="tag">ISO 9001</span>
-            <span class="tag">LOTO</span>
-            <span class="tag">Risk Assessment</span>
-            <span class="tag">SAP</span>
+            <span class="tag">Civil QA/QC <span class="skill-meter" aria-hidden="true"><span class="filled"></span><span class="filled"></span><span class="filled"></span><span class="filled"></span><span class="filled"></span></span></span>
+            <span class="tag">AutoCAD <span class="skill-meter" aria-hidden="true"><span class="filled"></span><span class="filled"></span><span class="filled"></span><span class="filled"></span><span></span></span></span>
+            <span class="tag">Material Submittals (MAR) <span class="skill-meter" aria-hidden="true"><span class="filled"></span><span class="filled"></span><span class="filled"></span><span class="filled"></span><span class="filled"></span></span></span>
+            <span class="tag">MIR & WIR <span class="skill-meter" aria-hidden="true"><span class="filled"></span><span class="filled"></span><span class="filled"></span><span class="filled"></span><span class="filled"></span></span></span>
+            <span class="tag">ASME / API / ASTM <span class="skill-meter" aria-hidden="true"><span class="filled"></span><span class="filled"></span><span class="filled"></span><span class="filled"></span><span class="filled"></span></span></span>
+            <span class="tag">Welding Inspection <span class="skill-meter" aria-hidden="true"><span class="filled"></span><span class="filled"></span><span class="filled"></span><span class="filled"></span><span></span></span></span>
+            <span class="tag">Permit to Work (PTW) <span class="skill-meter" aria-hidden="true"><span class="filled"></span><span class="filled"></span><span class="filled"></span><span class="filled"></span><span class="filled"></span></span></span>
+            <span class="tag">ISO 9001 <span class="skill-meter" aria-hidden="true"><span class="filled"></span><span class="filled"></span><span class="filled"></span><span class="filled"></span><span class="filled"></span></span></span>
+            <span class="tag">LOTO <span class="skill-meter" aria-hidden="true"><span class="filled"></span><span class="filled"></span><span class="filled"></span><span class="filled"></span><span class="filled"></span></span></span>
+            <span class="tag">Risk Assessment <span class="skill-meter" aria-hidden="true"><span class="filled"></span><span class="filled"></span><span class="filled"></span><span class="filled"></span><span class="filled"></span></span></span>
+            <span class="tag">SAP <span class="skill-meter" aria-hidden="true"><span class="filled"></span><span class="filled"></span><span class="filled"></span><span class="filled"></span><span></span></span></span>
           </div>
         </div>
         <div class="skill-box reveal" data-category="software">
           <h3 style="color: var(--accent-tertiary);">Software & Database</h3>
           <div class="tag-container">
-            <span class="tag">Oracle PL/SQL</span>
-            <span class="tag">SQL*Loader</span>
-            <span class="tag">External Tables</span>
-            <span class="tag">Performance Tuning</span>
-            <span class="tag">Bulk Processing</span>
-            <span class="tag">Database Migration</span>
-            <span class="tag">Shell Scripting</span>
+            <span class="tag">Oracle PL/SQL <span class="skill-meter" aria-hidden="true"><span class="filled"></span><span class="filled"></span><span class="filled"></span><span class="filled"></span><span class="filled"></span></span></span>
+            <span class="tag">SQL*Loader <span class="skill-meter" aria-hidden="true"><span class="filled"></span><span class="filled"></span><span class="filled"></span><span class="filled"></span><span class="filled"></span></span></span>
+            <span class="tag">External Tables <span class="skill-meter" aria-hidden="true"><span class="filled"></span><span class="filled"></span><span class="filled"></span><span class="filled"></span><span class="filled"></span></span></span>
+            <span class="tag">Performance Tuning <span class="skill-meter" aria-hidden="true"><span class="filled"></span><span class="filled"></span><span class="filled"></span><span class="filled"></span><span class="filled"></span></span></span>
+            <span class="tag">Bulk Processing <span class="skill-meter" aria-hidden="true"><span class="filled"></span><span class="filled"></span><span class="filled"></span><span class="filled"></span><span class="filled"></span></span></span>
+            <span class="tag">Database Migration <span class="skill-meter" aria-hidden="true"><span class="filled"></span><span class="filled"></span><span class="filled"></span><span class="filled"></span><span></span></span></span>
+            <span class="tag">Shell Scripting <span class="skill-meter" aria-hidden="true"><span class="filled"></span><span class="filled"></span><span class="filled"></span><span class="filled"></span><span></span></span></span>
           </div>
         </div>
       </div>
@@ -1879,11 +2021,21 @@
           <div class="contact-item">
             <span>📧</span>
             <a href="mailto:jnithin044@gmail.com" class="contact-link">jnithin044@gmail.com</a>
+            <button class="copy-btn" data-copy="jnithin044@gmail.com" title="Copy email address" aria-label="Copy email address">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" fill="currentColor" width="13" height="13">
+                <path d="M384 336H192c-8.8 0-16-7.2-16-16V64c0-8.8 7.2-16 16-16l140.1 0L400 115.9V320c0 8.8-7.2 16-16 16zM192 0c-35.3 0-64 28.7-64 64V320c0 35.3 28.7 64 64 64H384c35.3 0 64-28.7 64-64V115.9c0-17-6.7-33.3-18.7-45.3L377.4 18.7C365.3 6.7 349 0 332.1 0H192zM64 128c-35.3 0-64 28.7-64 64V448c0 35.3 28.7 64 64 64H256c35.3 0 64-28.7 64-64V416H272v32c0 8.8-7.2 16-16 16H64c-8.8 0-16-7.2-16-16V192c0-8.8 7.2-16 16-16H96V128H64z"/>
+              </svg>
+            </button>
           </div>
 
           <div class="contact-item">
             <span class="country-label">🇮🇳 India:</span>
             <a href="tel:+919940768744" class="contact-link">+91 9940768744</a>
+            <button class="copy-btn" data-copy="+919940768744" title="Copy India phone number" aria-label="Copy India phone number">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" fill="currentColor" width="13" height="13">
+                <path d="M384 336H192c-8.8 0-16-7.2-16-16V64c0-8.8 7.2-16 16-16l140.1 0L400 115.9V320c0 8.8-7.2 16-16 16zM192 0c-35.3 0-64 28.7-64 64V320c0 35.3 28.7 64 64 64H384c35.3 0 64-28.7 64-64V115.9c0-17-6.7-33.3-18.7-45.3L377.4 18.7C365.3 6.7 349 0 332.1 0H192zM64 128c-35.3 0-64 28.7-64 64V448c0 35.3 28.7 64 64 64H256c35.3 0 64-28.7 64-64V416H272v32c0 8.8-7.2 16-16 16H64c-8.8 0-16-7.2-16-16V192c0-8.8 7.2-16 16-16H96V128H64z"/>
+              </svg>
+            </button>
             <a href="https://wa.me/919940768744" target="_blank" rel="noopener noreferrer" class="wa-icon" title="Chat on WhatsApp" aria-label="WhatsApp India">
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
                 <path d="M380.9 97.1C339 55.1 283.2 32 223.9 32c-122.4 0-222 99.6-222 222 0 39.1 10.2 77.3 29.6 111L0 480l117.7-30.9c32.4 17.7 68.9 27 106.1 27h.1c122.3 0 224.1-99.6 224.1-222 0-59.3-25.2-115-67.1-157zM223.9 414.4c-33.1 0-65.5-8.9-94-25.7l-6.7-4-69.9 18.3L72 334.1l-4.4-7c-18.5-29.4-28.2-63.3-28.2-98.2 0-101.7 82.8-184.5 184.6-184.5 49.3 0 95.6 19.2 130.4 54.1 34.8 34.9 56.2 81.2 56.1 130.5 0 101.8-84.9 184.6-186.6 184.6zm101.2-138.2c-5.5-2.8-32.8-16.2-37.9-18-5.1-1.9-8.8-2.8-12.5 2.8-3.7 5.6-14.3 18-17.6 21.8-3.2 3.7-6.5 4.2-12 1.4-32.6-16.3-54-29.1-75.5-66-2.1-3.6 2.1-3.2 7.6-14s10.9-16.8 15.3-22.4c1.9-2.4 1-4.7-.4-7.5-1.4-2.8-12.5-30.1-17.1-41.2-4.5-10.8-9.1-9.3-12.5-9.5-3.2-.2-6.9-.2-10.6-.2-3.7 0-9.7 1.4-14.8 6.9-5.1 5.6-19.4 19-19.4 46.3 0 27.3 19.9 53.7 22.6 57.4 2.8 3.7 39.1 59.7 94.8 83.8 35.2 15.2 49 16.5 66.6 13.9 10.7-1.6 32.8-13.4 37.4-26.4 4.6-13 4.6-24.1 3.2-26.4-1.3-2.5-5-3.9-10.5-6.6z"/>
@@ -1894,11 +2046,23 @@
           <div class="contact-item">
             <span class="country-label">🇶🇦 Qatar:</span>
             <a href="tel:+97477023054" class="contact-link">+974 77023054</a>
+            <button class="copy-btn" data-copy="+97477023054" title="Copy Qatar phone number" aria-label="Copy Qatar phone number">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" fill="currentColor" width="13" height="13">
+                <path d="M384 336H192c-8.8 0-16-7.2-16-16V64c0-8.8 7.2-16 16-16l140.1 0L400 115.9V320c0 8.8-7.2 16-16 16zM192 0c-35.3 0-64 28.7-64 64V320c0 35.3 28.7 64 64 64H384c35.3 0 64-28.7 64-64V115.9c0-17-6.7-33.3-18.7-45.3L377.4 18.7C365.3 6.7 349 0 332.1 0H192zM64 128c-35.3 0-64 28.7-64 64V448c0 35.3 28.7 64 64 64H256c35.3 0 64-28.7 64-64V416H272v32c0 8.8-7.2 16-16 16H64c-8.8 0-16-7.2-16-16V192c0-8.8 7.2-16 16-16H96V128H64z"/>
+              </svg>
+            </button>
             <a href="https://wa.me/97477023054" target="_blank" rel="noopener noreferrer" class="wa-icon" title="Chat on WhatsApp" aria-label="WhatsApp Qatar">
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
                 <path d="M380.9 97.1C339 55.1 283.2 32 223.9 32c-122.4 0-222 99.6-222 222 0 39.1 10.2 77.3 29.6 111L0 480l117.7-30.9c32.4 17.7 68.9 27 106.1 27h.1c122.3 0 224.1-99.6 224.1-222 0-59.3-25.2-115-67.1-157zM223.9 414.4c-33.1 0-65.5-8.9-94-25.7l-6.7-4-69.9 18.3L72 334.1l-4.4-7c-18.5-29.4-28.2-63.3-28.2-98.2 0-101.7 82.8-184.5 184.6-184.5 49.3 0 95.6 19.2 130.4 54.1 34.8 34.9 56.2 81.2 56.1 130.5 0 101.8-84.9 184.6-186.6 184.6zm101.2-138.2c-5.5-2.8-32.8-16.2-37.9-18-5.1-1.9-8.8-2.8-12.5 2.8-3.7 5.6-14.3 18-17.6 21.8-3.2 3.7-6.5 4.2-12 1.4-32.6-16.3-54-29.1-75.5-66-2.1-3.6 2.1-3.2 7.6-14s10.9-16.8 15.3-22.4c1.9-2.4 1-4.7-.4-7.5-1.4-2.8-12.5-30.1-17.1-41.2-4.5-10.8-9.1-9.3-12.5-9.5-3.2-.2-6.9-.2-10.6-.2-3.7 0-9.7 1.4-14.8 6.9-5.1 5.6-19.4 19-19.4 46.3 0 27.3 19.9 53.7 22.6 57.4 2.8 3.7 39.1 59.7 94.8 83.8 35.2 15.2 49 16.5 66.6 13.9 10.7-1.6 32.8-13.4 37.4-26.4 4.6-13 4.6-24.1 3.2-26.4-1.3-2.5-5-3.9-10.5-6.6z"/>
               </svg>
             </a>
+          </div>
+
+          <div class="contact-item">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" fill="currentColor" width="20" height="20" style="color: #0A66C2;">
+              <path d="M416 32H31.9C14.3 32 0 46.5 0 64.3v383.4C0 465.5 14.3 480 31.9 480H416c17.6 0 32-14.5 32-32.3V64.3c0-17.8-14.4-32.3-32-32.3zM135.4 416H69V202.2h66.5V416zm-33.2-243c-21.3 0-38.5-17.3-38.5-38.5S80.9 96 102.2 96c21.2 0 38.5 17.3 38.5 38.5 0 21.3-17.2 38.5-38.5 38.5zm282.1 243h-66.4V312c0-24.8-.5-56.7-34.5-56.7-34.6 0-39.9 27-39.9 54.9V416h-66.4V202.2h63.7v29.2h.9c8.9-16.8 30.6-34.5 62.9-34.5 67.2 0 79.7 44.3 79.7 101.9V416z"/>
+            </svg>
+            <a href="https://www.linkedin.com/in/jose-nithin-b24a271bb?utm_source=share_via&utm_content=profile&utm_medium=member_android" target="_blank" rel="noopener noreferrer" class="contact-link">Connect on LinkedIn ↗</a>
           </div>
         </div>
       </div>
@@ -1955,6 +2119,9 @@
       <path d="M214.6 41.4c-12.5-12.5-32.8-12.5-45.3 0l-160 160c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L160 141.2V448c0 17.7 14.3 32 32 32s32-14.3 32-32V141.2L329.4 246.6c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3l-160-160z"/>
     </svg>
   </button>
+
+  <!-- Toast Notification Container -->
+  <div id="toast" role="status" aria-live="polite"></div>
 
   <script>
     const introFixed = document.getElementById('intro-fixed');
@@ -2240,6 +2407,42 @@
       if (e.key === 'Escape') closeViewer();
     });
 
+    // 1-Click Copy with Toast Notification
+    const toast = document.getElementById('toast');
+    let toastTimeout;
+    function showToast(msg) {
+      if (!toast) return;
+      toast.textContent = msg;
+      toast.classList.add('show');
+      clearTimeout(toastTimeout);
+      toastTimeout = setTimeout(() => {
+        toast.classList.remove('show');
+      }, 2200);
+    }
+
+    document.querySelectorAll('[data-copy]').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        const text = btn.getAttribute('data-copy');
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          navigator.clipboard.writeText(text).then(() => {
+            showToast('Copied ' + text + ' to clipboard! ✓');
+          }).catch(() => {
+            showToast('Copied: ' + text);
+          });
+        } else {
+          const tempInput = document.createElement('input');
+          tempInput.value = text;
+          document.body.appendChild(tempInput);
+          tempInput.select();
+          document.execCommand('copy');
+          document.body.removeChild(tempInput);
+          showToast('Copied ' + text + ' to clipboard! ✓');
+        }
+      });
+    });
+
     // Custom Smooth Glowing Dot & Trailing Ring Cursor (Desktop Only)
     if (window.matchMedia('(hover: hover) and (pointer: fine)').matches) {
       const cursorDot = document.getElementById('cursor-dot');
@@ -2295,7 +2498,7 @@
           cursorRing.style.opacity = '1';
         });
 
-        const interactiveSelector = 'a, button, [role="button"], .filter-btn, .cert-link, .tag, .gallery-card, .contact-item, input, textarea, select';
+        const interactiveSelector = 'a, button, [role="button"], .filter-btn, .cert-link, .tag, .gallery-card, .contact-item, .copy-btn, input, textarea, select';
 
         document.addEventListener('mouseover', (e) => {
           if (e.target.closest(interactiveSelector)) {

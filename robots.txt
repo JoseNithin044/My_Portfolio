@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://josenithin044.github.io/My_Portfolio/sitemap.xml
