@@ -7,6 +7,23 @@
   <meta name="theme-color" content="#11212D" />
   <title>Jose Nithin Antony Arockia Raja - Portfolio</title>
 
+  <!-- Favicon & Canonical -->
+  <link rel="icon" type="image/svg+xml" href="favicon.svg" />
+  <link rel="canonical" href="https://josenithin044.github.io/My_Portfolio/" />
+
+  <!-- Open Graph / Social Sharing -->
+  <meta property="og:title" content="Jose Nithin Antony Arockia Raja - Portfolio" />
+  <meta property="og:description" content="Civil & Mechanical QA/QC Inspector, Site Supervisor, and Oracle PL/SQL Developer based in Qatar." />
+  <meta property="og:image" content="https://josenithin044.github.io/My_Portfolio/Jose%201.webp" />
+  <meta property="og:url" content="https://josenithin044.github.io/My_Portfolio/" />
+  <meta property="og:type" content="website" />
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Jose Nithin Antony Arockia Raja - Portfolio" />
+  <meta name="twitter:description" content="Civil & Mechanical QA/QC Inspector, Site Supervisor, and Oracle PL/SQL Developer based in Qatar." />
+  <meta name="twitter:image" content="https://josenithin044.github.io/My_Portfolio/Jose%201.webp" />
+
   <!-- Preconnect to external origins -->
   <link rel="preconnect" href="https://www.googletagmanager.com" crossorigin />
   <link rel="dns-prefetch" href="https://www.googletagmanager.com" />
@@ -84,6 +101,7 @@
       [data-theme="dark"] body {
         background: linear-gradient(-45deg, #06141B, #11212D, #0a1924, #1b2e3c);
         background-size: 400% 400%;
+        animation: gradientBG 20s ease infinite;
       }
     }
 
@@ -515,6 +533,19 @@
       gap: 1.25rem;
     }
 
+    .stat-icon {
+      font-size: 1.45rem;
+      margin-bottom: 0.5rem;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 44px;
+      height: 44px;
+      border-radius: 12px;
+      background: var(--card-inner-bg);
+      border: 1px solid var(--glass-border);
+    }
+
     .stat-num {
       font-size: clamp(2rem, 4vw, 2.5rem);
       font-weight: 900;
@@ -733,11 +764,24 @@
       flex-wrap: wrap;
     }
 
+    .cert-info {
+      display: flex;
+      flex-direction: column;
+      gap: 0.2rem;
+      flex: 1 1 200px;
+    }
+
     .cert-list li .cert-title {
       display: flex;
       align-items: center;
       gap: 0.5rem;
-      flex: 1 1 200px;
+    }
+
+    .cert-date {
+      font-size: 0.78rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      margin-left: 1.85rem;
     }
 
     .cert-list li .cert-title::before {
@@ -1093,6 +1137,47 @@
       color: #06141B;
     }
 
+    /* Floating Back-to-Top Button */
+    #back-to-top {
+      position: fixed;
+      bottom: max(20px, env(safe-area-inset-bottom));
+      left: max(20px, env(safe-area-inset-left));
+      width: 46px;
+      height: 46px;
+      border-radius: 50%;
+      background: var(--header-bg);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      border: 1px solid var(--glass-border);
+      box-shadow: 0 4px 15px rgba(6, 20, 27, 0.15);
+      color: var(--accent-primary);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      z-index: 900;
+      opacity: 0;
+      visibility: hidden;
+      transform: translateY(12px);
+      transition: opacity 0.3s ease, visibility 0.3s ease, transform 0.3s ease, background 0.25s ease, color 0.25s ease;
+    }
+
+    #back-to-top.visible {
+      opacity: 1;
+      visibility: visible;
+      transform: translateY(0);
+    }
+
+    #back-to-top:hover {
+      background: var(--accent-secondary);
+      color: #ffffff;
+      transform: translateY(-3px) scale(1.06);
+    }
+
+    [data-theme="dark"] #back-to-top:hover {
+      color: #06141B;
+    }
+
     /* --- Multi-Device & Orientation Media Queries --- */
 
     /* Tablet & Mobile Portrait/Landscape Navigation Drawer */
@@ -1153,6 +1238,12 @@
         gap: 8px;
       }
       .social-floating a {
+        width: 40px;
+        height: 40px;
+      }
+      #back-to-top {
+        bottom: 14px;
+        left: 14px;
         width: 40px;
         height: 40px;
       }
@@ -1263,6 +1354,7 @@
       header,
       .stat-card, .timeline-card, .skill-box, .cert-list, .edu-card, .gallery-card,
       .social-floating a,
+      #back-to-top,
       footer {
         backdrop-filter: none;
         -webkit-backdrop-filter: none;
@@ -1356,7 +1448,7 @@
         <div class="hero-text">
           <div class="hero-title-sub">CIVIL & MECHANICAL QA/QC | SITE SUPERVISION | PL SQL DEVELOPMENT</div>
           <h1 class="hero-title-main">Jose Nithin Antony Arockia Raja</h1>
-          <div class="hero-tagline">Two disciplines, one standard for the job.</div>
+          <div class="hero-tagline">From pipeline inspection to core banking databases — zero compromises on quality.</div>
           <p class="hero-bio">
             I manage civil QA/QC and structural integrity, inspect mechanical pipelines to ASME/API standards, write PL/SQL for core banking systems, and run safe, compliant site operations as Person in Charge. Currently based in Qatar, open to civil/mechanical QA/QC, site supervision, and database engineering roles.
           </p>
@@ -1377,18 +1469,22 @@
 
       <div class="stats-grid">
         <div class="stat-card reveal">
+          <div class="stat-icon" aria-hidden="true">⚙️</div>
           <div class="stat-num" data-target="1" data-suffix=" yr">1 yr</div>
           <div class="stat-label">Mechanical QC BHEL</div>
         </div>
         <div class="stat-card reveal">
+          <div class="stat-icon" aria-hidden="true">💻</div>
           <div class="stat-num" data-target="2" data-suffix=" yrs">2 yrs</div>
           <div class="stat-label">PL SQL Dev LTM</div>
         </div>
         <div class="stat-card reveal">
+          <div class="stat-icon" aria-hidden="true">👷</div>
           <div class="stat-num" data-target="15" data-suffix="">15</div>
           <div class="stat-label">Technicians Led as PIC Doha Metro</div>
         </div>
         <div class="stat-card reveal">
+          <div class="stat-icon" aria-hidden="true">🏅</div>
           <div class="stat-num" data-target="8" data-suffix="+">8+</div>
           <div class="stat-label">Certifications Held</div>
         </div>
@@ -1513,7 +1609,10 @@
           <h3 style="color: var(--accent-primary); margin-bottom: 1.5rem; font-weight: 800;">Certifications & Verification</h3>
           <ul>
             <li>
-              <span class="cert-title">OSHA 30-Hour General Industry Safety</span>
+              <div class="cert-info">
+                <span class="cert-title">OSHA 30-Hour General Industry Safety</span>
+                <span class="cert-date">Issued Jan 2026</span>
+              </div>
               <a href="30-Hour OSHA General Industry Safety and Health Certificate.pdf"
                  class="cert-link"
                  data-viewer-src="30-Hour OSHA General Industry Safety and Health Certificate.pdf"
@@ -1521,7 +1620,10 @@
                  data-viewer-title="OSHA 30-Hour General Industry Safety">View PDF 📄</a>
             </li>
             <li>
-              <span class="cert-title">OSHA 10-Hour General Industry Safety</span>
+              <div class="cert-info">
+                <span class="cert-title">OSHA 10-Hour General Industry Safety</span>
+                <span class="cert-date">Issued Jan 2026</span>
+              </div>
               <a href="OSHA Industry Safety Certificate.pdf"
                  class="cert-link"
                  data-viewer-src="OSHA Industry Safety Certificate.pdf"
@@ -1529,7 +1631,10 @@
                  data-viewer-title="OSHA 10-Hour General Industry Safety">View PDF 📄</a>
             </li>
             <li>
-              <span class="cert-title">NDT Level 2 Certification</span>
+              <div class="cert-info">
+                <span class="cert-title">NDT Level 2 Certification</span>
+                <span class="cert-date">Issued Feb 2026</span>
+              </div>
               <a href="NDT Certificate.pdf"
                  class="cert-link"
                  data-viewer-src="NDT Certificate.pdf"
@@ -1537,7 +1642,10 @@
                  data-viewer-title="NDT Level 2 Certification">View PDF 📄</a>
             </li>
             <li>
-              <span class="cert-title">Oracle Database SQL Certified</span>
+              <div class="cert-info">
+                <span class="cert-title">Oracle Database SQL Certified</span>
+                <span class="cert-date">Issued Sep 2025</span>
+              </div>
               <a href="Oracle SQL Certificate.pdf"
                  class="cert-link"
                  data-viewer-src="Oracle SQL Certificate.pdf"
@@ -1545,7 +1653,10 @@
                  data-viewer-title="Oracle Database SQL Certified">View PDF 📄</a>
             </li>
             <li>
-              <span class="cert-title">Oracle Cloud Database Certificate</span>
+              <div class="cert-info">
+                <span class="cert-title">Oracle Cloud Database Certificate</span>
+                <span class="cert-date">Issued Sep 2025</span>
+              </div>
               <a href="Oracle Cloud Database Certificate.pdf"
                  class="cert-link"
                  data-viewer-src="Oracle Cloud Database Certificate.pdf"
@@ -1553,7 +1664,10 @@
                  data-viewer-title="Oracle Cloud Database Certificate">View PDF 📄</a>
             </li>
             <li>
-              <span class="cert-title">Lean Six Sigma Yellow Belt</span>
+              <div class="cert-info">
+                <span class="cert-title">Lean Six Sigma Yellow Belt</span>
+                <span class="cert-date">Issued Feb 2026</span>
+              </div>
               <a href="Six Sigma Yellow Belt.pdf"
                  class="cert-link"
                  data-viewer-src="Six Sigma Yellow Belt.pdf"
@@ -1561,7 +1675,10 @@
                  data-viewer-title="Lean Six Sigma Yellow Belt">View PDF 📄</a>
             </li>
             <li>
-              <span class="cert-title">Six Sigma White Belt (CSSC)</span>
+              <div class="cert-info">
+                <span class="cert-title">Six Sigma White Belt (CSSC)</span>
+                <span class="cert-date">Issued Jan 2026</span>
+              </div>
               <a href="Six Sigma White Belt Certification.pdf"
                  class="cert-link"
                  data-viewer-src="Six Sigma White Belt Certification.pdf"
@@ -1569,7 +1686,10 @@
                  data-viewer-title="Six Sigma White Belt (CSSC)">View PDF 📄</a>
             </li>
             <li>
-              <span class="cert-title">Doha Metro Person in Charge (PIC)</span>
+              <div class="cert-info">
+                <span class="cert-title">Doha Metro Person in Charge (PIC)</span>
+                <span class="cert-date">Issued Jun 2026</span>
+              </div>
               <a href="PIC Card.webp"
                  class="cert-link"
                  data-viewer-src="PIC Card.webp"
@@ -1577,7 +1697,10 @@
                  data-viewer-title="Doha Metro Person in Charge (PIC) - Level 2">Level 2 🖼️</a>
             </li>
             <li>
-              <span class="cert-title">Work at Height Training</span>
+              <div class="cert-info">
+                <span class="cert-title">Work at Height Training</span>
+                <span class="cert-date">Issued Jun 2026</span>
+              </div>
               <a href="Work at Height.webp"
                  class="cert-link"
                  data-viewer-src="Work at Height.webp"
@@ -1757,6 +1880,13 @@
     </a>
   </div>
 
+  <!-- Floating Back to Top Button -->
+  <button id="back-to-top" title="Back to top" aria-label="Scroll back to top">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512" fill="currentColor" width="18" height="18">
+      <path d="M214.6 41.4c-12.5-12.5-32.8-12.5-45.3 0l-160 160c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L160 141.2V448c0 17.7 14.3 32 32 32s32-14.3 32-32V141.2L329.4 246.6c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3l-160-160z"/>
+    </svg>
+  </button>
+
   <script>
     const introFixed = document.getElementById('intro-fixed');
     const zoomContainer = document.getElementById('zoom-container');
@@ -1906,6 +2036,18 @@
       localStorage.setItem('portfolio-theme', next);
       themeToggle.textContent = next === 'dark' ? '☀️' : '🌙';
     });
+
+    // Floating Back to Top Button
+    const backToTopBtn = document.getElementById('back-to-top');
+    if (backToTopBtn) {
+      window.addEventListener('scroll', () => {
+        backToTopBtn.classList.toggle('visible', window.scrollY > 400);
+      }, { passive: true });
+
+      backToTopBtn.addEventListener('click', () => {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      });
+    }
 
     // Discipline Filter (All / QA-QC / Software)
     const filterBtns = document.querySelectorAll('.filter-btn');
