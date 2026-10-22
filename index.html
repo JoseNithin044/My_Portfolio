@@ -1172,24 +1172,46 @@
 
     /* Mobile: disable heavy GPU blur filters for better LCP & paint performance */
     @media (max-width: 768px) {
-      /* Mobile intro: simplified version — no zoom animation, just fade out on scroll/tap */
+      /*
+       * LCP-FIRST MOBILE INTRO STRATEGY:
+       * The intro starts invisible (opacity:0 + visibility:hidden).
+       * JS reveals it AFTER the browser fires the LCP event, so the real
+       * portfolio content is measured as LCP — not the overlay.
+       * The full zoom + letter-split animation then runs identically to desktop.
+       */
       #intro-fixed {
-        pointer-events: auto; /* allow tap interactions */
+        opacity: 0;
+        visibility: hidden;
+        pointer-events: none;
+        /* Smooth fade-in when JS adds .intro-ready class */
+        transition: opacity 0.35s ease, visibility 0.35s ease;
       }
 
-      /* Reduce scroll-spacer height on mobile (shorter scroll distance to reveal content) */
+      /* JS adds this class after LCP — reveals the intro */
+      #intro-fixed.intro-ready {
+        opacity: 1;
+        visibility: visible;
+        pointer-events: auto;
+      }
+
+      /* Reduce scroll-spacer height on mobile (slightly shorter than desktop) */
       #scroll-spacer {
-        height: 90vh;
+        height: 110vh;
       }
 
-      /* Smaller image on mobile */
+      /* Slightly smaller image on mobile screens */
       .centered-image-container {
-        width: clamp(90px, 28vmin, 160px);
-        height: clamp(90px, 28vmin, 160px);
-        margin: 0;
+        width: clamp(90px, 24vmin, 180px);
+        height: clamp(90px, 24vmin, 180px);
+        margin: 0 0.5vw;
       }
 
-      /* Disable the background grid on mobile for paint performance */
+      /* Slightly tighter letter size on very small phones */
+      .static-letter {
+        font-size: clamp(3rem, 16vmin, 14rem);
+      }
+
+      /* Disable the decorative grid on mobile — reduces paint cost */
       #intro-fixed::before {
         display: none;
       }
@@ -1697,94 +1719,108 @@
 
     let ticking = false;
 
-    // Desktop: full zoom + letter split animation
-    function updateIntroScrollDesktop() {
+    // ── Unified scroll animation (identical on desktop & mobile) ──────────────
+    function updateIntroScroll() {
       const scrollY = window.scrollY;
       const windowHeight = window.innerHeight;
       const docHeight = document.documentElement.scrollHeight - windowHeight;
 
-      // Top progress bar
+      // Top reading-progress bar
       if (docHeight > 0) {
         scrollProgressBar.style.width = `${Math.min(100, (scrollY / docHeight) * 100)}%`;
       }
 
-      // Intro zoom and letter split calculation
+      // Zoom + letter-split progress (0 → 1 over first 75% of spacer)
       let scrollProgress = scrollY / (windowHeight * 0.75);
       if (scrollProgress > 1) scrollProgress = 1;
 
-      const scale = 1 + (scrollProgress * 4.5);
-      zoomContainer.style.transform = `scale(${scale})`;
+      // Image zoom
+      zoomContainer.style.transform = `scale(${1 + scrollProgress * 4.5})`;
 
-      const letterDisplacement = scrollProgress * 28;
-      letterJ.style.transform = `translate3d(-${letterDisplacement}vw, 0, 0)`;
-      letterSE.style.transform = `translate3d(${letterDisplacement}vw, 0, 0)`;
+      // Letter split
+      const disp = scrollProgress * 28;
+      letterJ.style.transform  = `translate3d(-${disp}vw, 0, 0)`;
+      letterSE.style.transform = `translate3d(${disp}vw, 0, 0)`;
 
-      const indicatorOpacity = 1 - (scrollY / (windowHeight * 0.18));
-      scrollIndicator.style.opacity = Math.max(0, indicatorOpacity);
-      scrollIndicator.style.pointerEvents = indicatorOpacity <= 0 ? 'none' : 'auto';
+      // "Scroll / Skip" indicator fades out quickly
+      const indOpacity = 1 - scrollY / (windowHeight * 0.18);
+      scrollIndicator.style.opacity      = Math.max(0, indOpacity);
+      scrollIndicator.style.pointerEvents = indOpacity <= 0 ? 'none' : 'auto';
 
+      // Whole overlay fades out
       const opacity = 1 - scrollProgress;
-      introFixed.style.opacity = Math.max(0, opacity);
+      introFixed.style.opacity    = Math.max(0, opacity);
       introFixed.style.visibility = opacity <= 0 ? 'hidden' : 'visible';
 
       ticking = false;
     }
 
-    // Mobile: simplified fade-out only (no zoom/split — saves GPU, keeps LCP fast)
-    function updateIntroScrollMobile() {
-      const scrollY = window.scrollY;
-      const windowHeight = window.innerHeight;
-      const docHeight = document.documentElement.scrollHeight - windowHeight;
+    // ── Attach scroll listener (shared) ───────────────────────────────────────
+    function attachScrollListener() {
+      window.addEventListener('scroll', () => {
+        if (!ticking) {
+          window.requestAnimationFrame(updateIntroScroll);
+          ticking = true;
+        }
+      }, { passive: true });
 
-      // Top progress bar
-      if (docHeight > 0) {
-        scrollProgressBar.style.width = `${Math.min(100, (scrollY / docHeight) * 100)}%`;
-      }
+      // "Scroll / Skip" jumps to portfolio
+      scrollIndicator.addEventListener('click', () => {
+        mainPortfolio.scrollIntoView({ behavior: 'smooth' });
+      });
 
-      // Simple fade out over first 60% of scroll-spacer height
-      let scrollProgress = scrollY / (windowHeight * 0.6);
-      if (scrollProgress > 1) scrollProgress = 1;
-
-      const indicatorOpacity = 1 - (scrollY / (windowHeight * 0.25));
-      scrollIndicator.style.opacity = Math.max(0, indicatorOpacity);
-      scrollIndicator.style.pointerEvents = indicatorOpacity <= 0 ? 'none' : 'auto';
-
-      const opacity = 1 - scrollProgress;
-      introFixed.style.opacity = Math.max(0, opacity);
-      introFixed.style.visibility = opacity <= 0 ? 'hidden' : 'visible';
-
-      ticking = false;
+      updateIntroScroll();
     }
 
     if (!isMobile) {
-      window.addEventListener('scroll', () => {
-        if (!ticking) {
-          window.requestAnimationFrame(updateIntroScrollDesktop);
-          ticking = true;
-        }
-      }, { passive: true });
-
-      window.addEventListener('resize', updateIntroScrollDesktop);
-      updateIntroScrollDesktop();
-
-      // Click "Scroll / Skip" button to jump smoothly to Main Portfolio
-      scrollIndicator.addEventListener('click', () => {
-        mainPortfolio.scrollIntoView({ behavior: 'smooth' });
-      });
+      // ── Desktop: show intro immediately, run animation ─────────────────────
+      window.addEventListener('resize', updateIntroScroll);
+      attachScrollListener();
     } else {
-      window.addEventListener('scroll', () => {
-        if (!ticking) {
-          window.requestAnimationFrame(updateIntroScrollMobile);
-          ticking = true;
+      // ── Mobile: LCP-first strategy ─────────────────────────────────────────
+      // 1. Intro starts opacity:0 / visibility:hidden (set in CSS).
+      // 2. We wait for the browser to fire the LCP event (real content painted).
+      // 3. Then we add .intro-ready → CSS transition fades the overlay IN.
+      // 4. Scroll animation runs identically to desktop.
+
+      function revealIntro() {
+        // Snap scroll position to 0 so animation starts clean
+        if (window.scrollY > 0) window.scrollTo(0, 0);
+        introFixed.classList.add('intro-ready');
+        attachScrollListener();
+      }
+
+      // Use PerformanceObserver to catch the LCP paint event
+      if ('PerformanceObserver' in window) {
+        let lcpFired = false;
+        const lcpObserver = new PerformanceObserver((list) => {
+          // LCP can update multiple times — we only act on the first firing
+          if (lcpFired) return;
+          lcpFired = true;
+          lcpObserver.disconnect();
+          // Small rAF delay lets the browser finish compositing before we
+          // paint the heavy overlay on top
+          requestAnimationFrame(() => requestAnimationFrame(revealIntro));
+        });
+        try {
+          lcpObserver.observe({ type: 'largest-contentful-paint', buffered: true });
+        } catch (e) {
+          // PerformanceObserver exists but LCP not supported — fallback
+          lcpFired = true;
         }
-      }, { passive: true });
 
-      updateIntroScrollMobile();
-
-      // Tap "Scroll / Skip" on mobile — instant jump
-      scrollIndicator.addEventListener('click', () => {
-        mainPortfolio.scrollIntoView({ behavior: 'smooth' });
-      });
+        // Safety fallback: if LCP never fires within 1.5 s, reveal anyway
+        setTimeout(() => {
+          if (!lcpFired) { lcpFired = true; lcpObserver.disconnect(); revealIntro(); }
+        }, 1500);
+      } else {
+        // No PerformanceObserver support — wait one rAF after DOMContentLoaded
+        if (document.readyState === 'complete' || document.readyState === 'interactive') {
+          requestAnimationFrame(revealIntro);
+        } else {
+          document.addEventListener('DOMContentLoaded', () => requestAnimationFrame(revealIntro));
+        }
+      }
     }
 
     // Mobile Menu Drawer Toggle
