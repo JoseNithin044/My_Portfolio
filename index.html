@@ -126,6 +126,10 @@
 
     /* Custom Cursor (Desktop Only) */
     @media (hover: hover) and (pointer: fine) {
+      *, *::before, *::after {
+        cursor: none !important;
+      }
+
       #cursor-dot,
       #cursor-ring {
         position: fixed;
