@@ -4,7 +4,8 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
   <meta name="description" content="Jose Nithin Antony Arockia Raja — Civil & Mechanical QA/QC Inspector, Site Supervisor, and Oracle PL/SQL Developer based in Qatar. Open to QA/QC, site supervision, and database engineering roles." />
-  <meta name="theme-color" content="#11212D" />
+  <meta name="color-scheme" content="light dark" />
+  <meta name="theme-color" content="#CCD0CF" id="meta-theme-color" />
   <title>Jose Nithin Antony Arockia Raja - Portfolio</title>
 
   <!-- Favicon & Canonical -->
@@ -32,6 +33,7 @@
   <link rel="preload" as="image" href="Jose 1.webp" fetchpriority="high" />
   <style>
     :root {
+      color-scheme: light;
       /* Light Slate Glass Theme (Default) */
       --text-main: #06141B;
       --text-muted: #4A5C6A;
@@ -51,6 +53,7 @@
     }
 
     [data-theme="dark"] {
+      color-scheme: dark;
       /* Engineering Blueprint Dark Theme */
       --text-main: #F0F4F8;
       --text-muted: #9FB3C8;
@@ -203,8 +206,12 @@
       justify-content: center;
       align-items: center;
       overflow: hidden;
-      background: #06141B;
+      background: #CCD0CF;
+      background: linear-gradient(-45deg, #CCD0CF, #9BA8AB, #CCD0CF, #ffffff);
+      background-size: 400% 400%;
+      animation: gradientBG 15s ease infinite;
       contain: layout style paint;
+      transition: background 0.3s ease;
     }
 
     #intro-fixed::before {
@@ -212,8 +219,8 @@
       position: absolute;
       inset: 0;
       background-image: 
-        linear-gradient(rgba(255, 255, 255, 0.04) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(255, 255, 255, 0.04) 1px, transparent 1px);
+        linear-gradient(rgba(37, 55, 69, 0.05) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(37, 55, 69, 0.05) 1px, transparent 1px);
       background-size: 40px 40px;
       pointer-events: none;
       /* Only paint this decorative grid on capable devices */
@@ -237,12 +244,13 @@
       z-index: 1;
       font-size: clamp(3.5rem, 18vmin, 16rem);
       font-weight: 900;
-      color: rgba(255, 255, 255, 0.95);
-      text-shadow: 5px 5px 20px rgba(6, 20, 27, 0.85);
+      color: var(--accent-primary);
+      text-shadow: 2px 4px 15px rgba(6, 20, 27, 0.15);
       text-transform: uppercase;
       user-select: none;
       white-space: nowrap;
       line-height: 1;
+      transition: color 0.3s ease, text-shadow 0.3s ease;
     }
 
     .centered-image-container {
@@ -253,12 +261,13 @@
       flex-shrink: 0;
       border-radius: 50%;
       overflow: hidden;
-      border: clamp(4px, 0.8vmin, 8px) solid white;
-      box-shadow: 0px 15px 40px rgba(6, 20, 27, 0.5), 
-                  0px 0px 50px rgba(255, 255, 255, 0.22);
+      border: clamp(4px, 0.8vmin, 8px) solid #ffffff;
+      box-shadow: 0px 15px 40px rgba(6, 20, 27, 0.18), 
+                  0px 0px 40px rgba(255, 255, 255, 0.6);
       transform-origin: center center;
       margin: 0 0.8vw;
-      background-color: #11212D;
+      background-color: #CCD0CF;
+      transition: border-color 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease;
     }
 
     #zoom-image { width: 100%; height: 100%; object-fit: cover; display: block; }
@@ -270,31 +279,72 @@
       flex-direction: column;
       align-items: center;
       gap: 6px;
-      color: rgba(255, 255, 255, 0.85);
+      color: var(--accent-primary);
       font-size: clamp(0.7rem, 1.8vmin, 0.85rem);
       font-weight: 700;
       letter-spacing: 3px;
       text-transform: uppercase;
       animation: bounce 2s infinite;
-      transition: opacity 0.2s ease, transform 0.2s ease;
+      transition: opacity 0.2s ease, transform 0.2s ease, background 0.25s ease, color 0.25s ease, border-color 0.25s ease;
       z-index: 15;
       pointer-events: auto;
       cursor: pointer;
-      background: rgba(255, 255, 255, 0.08);
+      background: rgba(255, 255, 255, 0.75);
       padding: 0.5rem 1.1rem;
       border-radius: 30px;
-      border: 1px solid rgba(255, 255, 255, 0.2);
+      border: 1px solid rgba(17, 33, 45, 0.18);
+      box-shadow: 0 4px 15px rgba(6, 20, 27, 0.08);
       backdrop-filter: blur(6px);
+      -webkit-backdrop-filter: blur(6px);
     }
 
     .scroll-indicator:hover {
-      background: rgba(255, 255, 255, 0.18);
+      background: rgba(255, 255, 255, 0.95);
+      color: var(--accent-secondary);
     }
 
     .scroll-indicator svg {
       width: 16px;
       height: 16px;
       fill: currentColor;
+    }
+
+    /* Intro Section Dark Blueprint Theme Overrides */
+    [data-theme="dark"] #intro-fixed {
+      background: #06141B;
+      background: linear-gradient(-45deg, #06141B, #11212D, #0a1924, #1b2e3c);
+      background-size: 400% 400%;
+      animation: gradientBG 20s ease infinite;
+    }
+
+    [data-theme="dark"] #intro-fixed::before {
+      background-image: 
+        linear-gradient(rgba(56, 189, 248, 0.06) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(56, 189, 248, 0.06) 1px, transparent 1px);
+    }
+
+    [data-theme="dark"] .static-letter {
+      color: rgba(255, 255, 255, 0.95);
+      text-shadow: 5px 5px 20px rgba(6, 20, 27, 0.85);
+    }
+
+    [data-theme="dark"] .centered-image-container {
+      border: clamp(4px, 0.8vmin, 8px) solid #ffffff;
+      box-shadow: 0px 15px 40px rgba(6, 20, 27, 0.5), 
+                  0px 0px 50px rgba(56, 189, 248, 0.25);
+      background-color: #11212D;
+    }
+
+    [data-theme="dark"] .scroll-indicator {
+      color: rgba(255, 255, 255, 0.85);
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      box-shadow: none;
+    }
+
+    [data-theme="dark"] .scroll-indicator:hover {
+      background: rgba(56, 189, 248, 0.2);
+      color: #38BDF8;
     }
 
     @keyframes bounce {
@@ -1361,18 +1411,23 @@
         top: 100%;
         left: 0;
         right: 0;
-        background: var(--header-bg);
+        background: rgba(255, 255, 255, 0.98);
         backdrop-filter: blur(18px);
         -webkit-backdrop-filter: blur(18px);
         flex-direction: column;
         padding: 1rem 5%;
         gap: 0.5rem;
         border-bottom: 1px solid var(--glass-border);
-        box-shadow: 0 12px 30px rgba(6, 20, 27, 0.15);
+        box-shadow: 0 12px 30px rgba(6, 20, 27, 0.12);
         opacity: 0;
         pointer-events: none;
         transform: translateY(-10px);
         transition: all 0.25s ease;
+      }
+
+      [data-theme="dark"] nav {
+        background: rgba(6, 20, 27, 0.98);
+        box-shadow: 0 12px 30px rgba(0, 0, 0, 0.5);
       }
 
       nav.open {
@@ -1523,6 +1578,7 @@
       #main-portfolio,
       header,
       .stat-card, .timeline-card, .skill-box, .cert-list, .edu-card, .gallery-card,
+      .discipline-bar, .quote-box, .contact-item,
       .social-floating a,
       #back-to-top,
       footer {
@@ -1530,7 +1586,8 @@
         -webkit-backdrop-filter: none;
       }
       /* Lighten card backgrounds on mobile so content remains readable without blur */
-      .stat-card, .timeline-card, .skill-box, .cert-list, .edu-card, .gallery-card {
+      .stat-card, .timeline-card, .skill-box, .cert-list, .edu-card, .gallery-card,
+      .discipline-bar, .quote-box, .contact-item {
         background: rgba(255, 255, 255, 0.92);
       }
       [data-theme="dark"] .stat-card,
@@ -1538,7 +1595,10 @@
       [data-theme="dark"] .skill-box,
       [data-theme="dark"] .cert-list,
       [data-theme="dark"] .edu-card,
-      [data-theme="dark"] .gallery-card {
+      [data-theme="dark"] .gallery-card,
+      [data-theme="dark"] .discipline-bar,
+      [data-theme="dark"] .quote-box,
+      [data-theme="dark"] .contact-item {
         background: rgba(17, 33, 45, 0.95);
       }
       #main-portfolio {
@@ -2166,6 +2226,7 @@
       window.addEventListener('resize', updateIntroScroll);
       attachScrollListener();
     } else {
+      window.addEventListener('resize', updateIntroScroll, { passive: true });
       // ── Mobile: LCP-first strategy ─────────────────────────────────────────
       // 1. Intro starts opacity:0 / visibility:hidden (set in CSS).
       // 2. We wait for the browser to fire the LCP event (real content painted).
@@ -2231,19 +2292,38 @@
 
     // Theme Switcher (Light Slate <-> Dark Blueprint)
     const themeToggle = document.getElementById('theme-toggle');
-    const savedTheme = localStorage.getItem('portfolio-theme');
-    if (savedTheme) {
-      document.documentElement.setAttribute('data-theme', savedTheme);
-      themeToggle.textContent = savedTheme === 'dark' ? '☀️' : '🌙';
+    const metaThemeColor = document.getElementById('meta-theme-color') || document.querySelector('meta[name="theme-color"]');
+    const metaColorScheme = document.querySelector('meta[name="color-scheme"]');
+
+    function applyTheme(theme) {
+      document.documentElement.setAttribute('data-theme', theme);
+      document.documentElement.style.colorScheme = theme;
+      if (metaThemeColor) {
+        metaThemeColor.setAttribute('content', theme === 'dark' ? '#06141B' : '#CCD0CF');
+      }
+      if (metaColorScheme) {
+        metaColorScheme.setAttribute('content', theme === 'dark' ? 'dark' : 'light');
+      }
+      if (themeToggle) {
+        themeToggle.textContent = theme === 'dark' ? '☀️' : '🌙';
+      }
     }
 
-    themeToggle.addEventListener('click', () => {
-      const current = document.documentElement.getAttribute('data-theme');
-      const next = current === 'dark' ? 'light' : 'dark';
-      document.documentElement.setAttribute('data-theme', next);
-      localStorage.setItem('portfolio-theme', next);
-      themeToggle.textContent = next === 'dark' ? '☀️' : '🌙';
-    });
+    const savedTheme = localStorage.getItem('portfolio-theme');
+    if (savedTheme) {
+      applyTheme(savedTheme);
+    } else {
+      applyTheme('light');
+    }
+
+    if (themeToggle) {
+      themeToggle.addEventListener('click', () => {
+        const current = document.documentElement.getAttribute('data-theme');
+        const next = current === 'dark' ? 'light' : 'dark';
+        localStorage.setItem('portfolio-theme', next);
+        applyTheme(next);
+      });
+    }
 
     // Floating Back to Top Button
     const backToTopBtn = document.getElementById('back-to-top');
