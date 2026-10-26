@@ -163,6 +163,74 @@
           "Non-Destructive Testing (NDT)",
           "ISO 9001"
         ]
+      },
+      {
+        "@type": "FAQPage",
+        "@id": "https://www.josenithin.online/#faq",
+        "url": "https://www.josenithin.online/#faq",
+        "name": "Frequently Asked Questions about Jose Nithin (Josenithin)",
+        "inLanguage": "en-US",
+        "isPartOf": {
+          "@id": "https://www.josenithin.online/#website"
+        },
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "Who is Jose Nithin (Josenithin)?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Jose Nithin Antony Arockia Raja (commonly known as Jose Nithin or Josenithin) is a dual-discipline engineering professional with hands-on expertise in Civil & Mechanical QA/QC Inspection, Site Operations Supervision (Person in Charge / PIC), and Oracle PL/SQL Database Engineering. Based in Qatar, he holds a Mechanical Engineering degree from Anna University with cross-industry experience spanning heavy manufacturing, metro rail infrastructure, and banking enterprise software."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "What international engineering standards and inspection codes does Jose Nithin work with?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Jose Nithin conducts inspections strictly aligned with ASME (Boiler and Pressure Vessel Code, B31.1 / B31.3 piping), API (pipeline inspection), ASTM (material verification using XRF analyzers), and ISO 9001 quality management systems. He is certified in NDT Level II (RT, UT, MPT, LPT) under SNT-TC-1A guidelines."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "What site supervision and safety qualifications does Jose Nithin have?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Jose Nithin holds the OSHA 30-Hour General Industry Safety and Health certification and Work at Height & Safety Harness certification. As Person in Charge (PIC) on the Doha Metro network (RKH Qitarat), he led 15 electro-mechanical technicians, executed daily Toolbox Talks, administered strict Permit to Work (PTW) protocols, and managed Lockout/Tagout (LOTO) energy isolation with zero Lost Time Incidents (LTI)."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "How does Jose Nithin combine civil/mechanical QA/QC with software engineering?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Alongside civil and mechanical QA/QC (AutoCAD plots verification, Material Submittals / MAR, MIR, and WIR processing), Jose Nithin worked for two years as an Oracle PL/SQL Software Engineer at LTM supporting core banking transaction processing. He specializes in high-volume batch processing using Bulk Collect and FORALL, automated financial reporting, SQL*Loader and External Tables data pipelines, and Oracle 11g to 19c migrations."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "What verified certifications does Jose Nithin hold?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Jose Nithin holds over 8 verified credentials: OSHA 30-Hour General Industry Safety & Health, NDT Level II (RT, UT, MPT, LPT) per SNT-TC-1A, Oracle Cloud Infrastructure 2024 Foundations Associate, Oracle SQL & Database Developer Certification, Lean Six Sigma Yellow Belt & White Belt, Person in Charge (PIC) Doha Metro Card, and Work at Height & Harness Safety Certification."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "What roles is Jose Nithin currently available for, and where?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Jose Nithin is based in Doha, Qatar, and is open to immediate roles across Qatar, Saudi Arabia, the UAE, and internationally as Civil QA/QC Inspector, Mechanical QA/QC Inspector, Site Supervisor / Person in Charge (PIC), and Oracle PL/SQL Database Developer. He can be reached directly at +974 7702 3054 or jnithin044@gmail.com."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "How can recruiters or clients verify Jose Nithin's credentials or get in touch?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Recruiters and hiring managers can connect with Jose Nithin via WhatsApp (+974 7702 3054), email (jnithin044@gmail.com), or LinkedIn (linkedin.com/in/jose-nithin-b24a271bb). His verified Anna University degree certificate, marksheets, OSHA, and NDT certificates are embedded for on-page preview and direct download on his official website https://www.josenithin.online/."
+            }
+          }
+        ]
       }
     ]
   }
@@ -1308,6 +1376,110 @@
       background: #ffffff;
     }
 
+    /* FAQ Section */
+    .faq-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 1.15rem;
+      max-width: 960px;
+      margin: 0 auto;
+    }
+
+    .faq-item {
+      background: var(--glass-bg);
+      border: 1px solid var(--glass-border);
+      border-radius: 16px;
+      box-shadow: var(--glass-shadow);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      overflow: hidden;
+      transition: border-color 0.25s ease, box-shadow 0.25s ease;
+    }
+
+    .faq-item:hover {
+      border-color: var(--accent-secondary);
+      box-shadow: 0 10px 30px rgba(6, 20, 27, 0.12);
+    }
+
+    [data-theme="dark"] .faq-item:hover {
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.45);
+    }
+
+    .faq-question {
+      padding: 1.25rem 1.6rem;
+      font-size: clamp(1.02rem, 2vw, 1.15rem);
+      font-weight: 700;
+      color: var(--accent-primary);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      user-select: none;
+      list-style: none;
+      transition: color 0.25s ease;
+    }
+
+    .faq-question::-webkit-details-marker {
+      display: none;
+    }
+
+    .faq-question:hover {
+      color: var(--accent-secondary);
+    }
+
+    .faq-icon {
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      background: var(--card-inner-bg);
+      border: 1px solid var(--glass-border);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      color: var(--accent-secondary);
+      transition: transform 0.3s ease, background 0.3s ease, color 0.3s ease;
+      font-size: 1.2rem;
+      font-weight: 700;
+      line-height: 1;
+    }
+
+    .faq-item[open] .faq-icon {
+      transform: rotate(45deg);
+      background: var(--accent-secondary);
+      color: #ffffff;
+    }
+
+    [data-theme="dark"] .faq-item[open] .faq-icon {
+      color: #06141B;
+      background: #38BDF8;
+    }
+
+    .faq-answer {
+      padding: 1rem 1.6rem 1.5rem 1.6rem;
+      color: var(--text-main);
+      font-size: 0.98rem;
+      line-height: 1.75;
+      font-weight: 500;
+      border-top: 1px dashed rgba(155, 168, 171, 0.35);
+      margin-top: 0;
+    }
+
+    .faq-answer strong {
+      color: var(--accent-secondary);
+      font-weight: 700;
+    }
+
+    .faq-answer ul {
+      margin: 0.6rem 0 0.4rem 1.4rem;
+      list-style-type: disc;
+    }
+
+    .faq-answer li {
+      margin-bottom: 0.4rem;
+    }
+
     /* Footer & Contact Section */
     footer {
       border-top: 1px solid var(--glass-border);
@@ -1721,7 +1893,7 @@
       #main-portfolio,
       header,
       .stat-card, .timeline-card, .skill-box, .cert-list, .edu-card, .gallery-card,
-      .discipline-bar, .quote-box, .contact-item,
+      .discipline-bar, .quote-box, .contact-item, .faq-item,
       .social-floating a,
       #back-to-top,
       footer {
@@ -1730,7 +1902,7 @@
       }
       /* Lighten card backgrounds on mobile so content remains readable without blur */
       .stat-card, .timeline-card, .skill-box, .cert-list, .edu-card, .gallery-card,
-      .discipline-bar, .quote-box, .contact-item {
+      .discipline-bar, .quote-box, .contact-item, .faq-item {
         background: rgba(255, 255, 255, 0.92);
       }
       [data-theme="dark"] .stat-card,
@@ -1741,7 +1913,8 @@
       [data-theme="dark"] .gallery-card,
       [data-theme="dark"] .discipline-bar,
       [data-theme="dark"] .quote-box,
-      [data-theme="dark"] .contact-item {
+      [data-theme="dark"] .contact-item,
+      [data-theme="dark"] .faq-item {
         background: rgba(17, 33, 45, 0.95);
       }
       #main-portfolio {
@@ -1799,6 +1972,7 @@
         <a href="#skills" class="nav-link">Skills</a>
         <a href="#certifications" class="nav-link">Certifications</a>
         <a href="#gallery" class="nav-link">Gallery</a>
+        <a href="#faq" class="nav-link">FAQ</a>
         <a href="#contact" class="nav-link">Contact</a>
       </nav>
 
@@ -2187,6 +2361,120 @@
           </div>
           <div class="gallery-caption">Full PPE - Doha Metro</div>
         </div>
+      </div>
+    </section>
+
+    <!-- FREQUENTLY ASKED QUESTIONS SECTION -->
+    <section class="section-container" id="faq">
+      <h2 class="section-title">Frequently Asked Questions</h2>
+      <div class="faq-grid">
+        <details class="faq-item reveal">
+          <summary class="faq-question">
+            <span>Who is Jose Nithin (Josenithin)?</span>
+            <span class="faq-icon" aria-hidden="true">+</span>
+          </summary>
+          <div class="faq-answer">
+            <p><strong>Jose Nithin Antony Arockia Raja</strong> (commonly known as <strong>Jose Nithin</strong> or <strong>Josenithin</strong>) is a dual-discipline engineering professional with proven expertise in <strong>Civil &amp; Mechanical QA/QC Inspection</strong>, <strong>Site Operations Supervision (Person in Charge / PIC)</strong>, and <strong>Oracle PL/SQL Database Engineering</strong>. Currently based in <strong>Doha, Qatar</strong>, he holds a Mechanical Engineering degree from Anna University and brings hands-on leadership from heavy industrial fabrication, metro rail operations, and enterprise banking software.</p>
+          </div>
+        </details>
+
+        <details class="faq-item reveal">
+          <summary class="faq-question">
+            <span>What international engineering standards and inspection codes does Jose Nithin work with?</span>
+            <span class="faq-icon" aria-hidden="true">+</span>
+          </summary>
+          <div class="faq-answer">
+            <p>Jose Nithin conducts site and fabrication inspections strictly aligned with international engineering standards, including:</p>
+            <ul>
+              <li><strong>ASME</strong>: Boiler and Pressure Vessel Code (Section IX welding, B31.1 power piping, B31.3 process piping).</li>
+              <li><strong>API</strong>: Pipeline and rotating equipment inspection standards.</li>
+              <li><strong>ASTM</strong>: Material grade verification and positive material identification (PMI) using XRF Analyzers.</li>
+              <li><strong>ISO 9001</strong>: Quality Management Systems, audit readiness, Inspection &amp; Test Plans (ITP), Non-Conformance Reports (NCR), and material tracking via SAP.</li>
+              <li><strong>NDT Level II</strong>: Certified in Radiographic Testing (RT), Ultrasonic Testing (UT), Magnetic Particle Testing (MPT), and Liquid Penetrant Testing (LPT) under SNT-TC-1A.</li>
+            </ul>
+          </div>
+        </details>
+
+        <details class="faq-item reveal">
+          <summary class="faq-question">
+            <span>What site supervision and safety qualifications does Jose Nithin hold?</span>
+            <span class="faq-icon" aria-hidden="true">+</span>
+          </summary>
+          <div class="faq-answer">
+            <p>Safety and regulatory compliance are top priorities in all site operations. Jose Nithin holds:</p>
+            <ul>
+              <li><strong>30-Hour OSHA General Industry Safety and Health Certification</strong>.</li>
+              <li><strong>Work at Height &amp; Safety Harness Certified</strong> (active field inspection).</li>
+              <li><strong>Person in Charge (PIC) Doha Metro Card</strong>: Led 15 electro-mechanical technicians for RKH Qitarat across critical mechanical zones.</li>
+              <li>Hands-on mastery of <strong>Permit to Work (PTW)</strong> administration, daily Toolbox Talks, Hazard Identification Risk Assessment (HIRA), and <strong>Lockout/Tagout (LOTO)</strong> energy isolation with zero Lost Time Incidents (LTI).</li>
+            </ul>
+          </div>
+        </details>
+
+        <details class="faq-item reveal">
+          <summary class="faq-question">
+            <span>How does Jose Nithin combine civil/mechanical QA/QC with software engineering?</span>
+            <span class="faq-icon" aria-hidden="true">+</span>
+          </summary>
+          <div class="faq-answer">
+            <p>Alongside on-site QA/QC (AutoCAD plots verification, Material Approval Requests / MAR, Material Inspection Requests / MIR, and Work Inspection Requests / WIR), Jose Nithin worked for two years as an <strong>Oracle PL/SQL Software Engineer at LTM</strong> supporting core banking financial transaction systems.</p>
+            <p>He specializes in high-volume batch processing using <strong>Bulk Collect &amp; FORALL</strong>, automated compliance reporting, <strong>SQL*Loader &amp; External Tables</strong> ETL pipelines, and <strong>Oracle 11g to 19c database migrations</strong>. This rare intersection gives him an analytical edge in structural data integrity, automated site reporting, and flawless audit trails.</p>
+          </div>
+        </details>
+
+        <details class="faq-item reveal">
+          <summary class="faq-question">
+            <span>What verified certifications does Jose Nithin hold?</span>
+            <span class="faq-icon" aria-hidden="true">+</span>
+          </summary>
+          <div class="faq-answer">
+            <p>Jose Nithin holds over 8 verified credentials with original documents viewable on this portfolio:</p>
+            <ul>
+              <li><strong>OSHA 30-Hour General Industry Safety and Health</strong> (Jan 2026)</li>
+              <li><strong>NDT Level II (RT, UT, MPT, LPT)</strong> per SNT-TC-1A (Jun 2024)</li>
+              <li><strong>Oracle Cloud Infrastructure 2024 Foundations Associate</strong> (Sep 2024)</li>
+              <li><strong>Oracle SQL &amp; Database Developer Certification</strong></li>
+              <li><strong>Lean Six Sigma Yellow Belt &amp; White Belt</strong> (Aug-Sep 2024)</li>
+              <li><strong>Person in Charge (PIC) Doha Metro Certification</strong></li>
+              <li><strong>Work at Height &amp; Safety Harness Certification</strong></li>
+              <li><strong>B.E. Mechanical Engineering</strong> — Anna University (First Class)</li>
+            </ul>
+          </div>
+        </details>
+
+        <details class="faq-item reveal">
+          <summary class="faq-question">
+            <span>What roles is Jose Nithin currently open to in Qatar and the Gulf region?</span>
+            <span class="faq-icon" aria-hidden="true">+</span>
+          </summary>
+          <div class="faq-answer">
+            <p>Jose Nithin is currently based in <strong>Doha, Qatar</strong> and is available for immediate hire across Qatar, Saudi Arabia, the UAE, and international locations in roles such as:</p>
+            <ul>
+              <li><strong>Civil QA/QC Inspector / Civil Quality Engineer</strong></li>
+              <li><strong>Mechanical QA/QC Inspector / Piping Inspector / Welding Inspector</strong></li>
+              <li><strong>Site Supervisor / Person in Charge (PIC)</strong></li>
+              <li><strong>Oracle PL/SQL Database Developer / Technical Data QA Engineer</strong></li>
+            </ul>
+            <p>He can be contacted directly via WhatsApp/Phone at <strong>+974 7702 3054</strong> or email at <strong>jnithin044@gmail.com</strong>.</p>
+          </div>
+        </details>
+
+        <details class="faq-item reveal">
+          <summary class="faq-question">
+            <span>How can recruiters and clients get in touch or request a detailed CV?</span>
+            <span class="faq-icon" aria-hidden="true">+</span>
+          </summary>
+          <div class="faq-answer">
+            <p>You can get in touch immediately through any of the following channels:</p>
+            <ul>
+              <li><strong>WhatsApp / Phone (Qatar)</strong>: <a href="https://wa.me/97477023054" target="_blank" rel="noopener noreferrer" style="color: var(--accent-secondary); font-weight: 700;">+974 7702 3054</a></li>
+              <li><strong>Phone (India)</strong>: <a href="tel:+919940768744" style="color: var(--accent-secondary); font-weight: 700;">+91 9940768744</a></li>
+              <li><strong>Email</strong>: <a href="mailto:jnithin044@gmail.com" style="color: var(--accent-secondary); font-weight: 700;">jnithin044@gmail.com</a></li>
+              <li><strong>LinkedIn</strong>: <a href="https://www.linkedin.com/in/jose-nithin-b24a271bb" target="_blank" rel="noopener noreferrer" style="color: var(--accent-secondary); font-weight: 700;">linkedin.com/in/jose-nithin-b24a271bb</a></li>
+            </ul>
+            <p>You can also preview and download his updated Curriculum Vitae (CV) directly from the top navigation bar or the footer below.</p>
+          </div>
+        </details>
       </div>
     </section>
 
