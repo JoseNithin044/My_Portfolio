@@ -1,9 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
   <url>
     <loc>https://josenithin044.github.io/My_Portfolio/</loc>
-    <lastmod>2026-10-22</lastmod>
-    <changefreq>monthly</changefreq>
+    <lastmod>2026-10-26</lastmod>
+    <changefreq>weekly</changefreq>
     <priority>1.0</priority>
+    <image:image>
+      <image:loc>https://josenithin044.github.io/My_Portfolio/Jose%201.webp</image:loc>
+      <image:title>Jose Nithin (Josenithin) - QA/QC Inspector and Developer</image:title>
+      <image:caption>Jose Nithin (Josenithin / Nithin) Antony Arockia Raja</image:caption>
+    </image:image>
+    <image:image>
+      <image:loc>https://josenithin044.github.io/My_Portfolio/Jose%202.webp</image:loc>
+      <image:title>Jose Nithin - Civil &amp; Mechanical QA/QC Inspector and Site Supervisor</image:title>
+      <image:caption>Jose Nithin (Josenithin) Official Profile</image:caption>
+    </image:image>
   </url>
 </urlset>
