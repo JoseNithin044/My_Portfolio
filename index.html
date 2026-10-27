@@ -290,6 +290,7 @@
 
     body {
       background: #CCD0CF;
+      background: linear-gradient(135deg, #CCD0CF 0%, #E2E6E7 35%, #CCD0CF 70%, #9BA8AB 100%);
       color: var(--text-main);
       font-family: var(--font-family);
       line-height: 1.6;
@@ -299,32 +300,9 @@
       transition: color 0.3s ease;
     }
 
-    @media (prefers-reduced-motion: no-preference) {
-      body {
-        background: linear-gradient(-45deg, #CCD0CF, #9BA8AB, #CCD0CF, #ffffff);
-        background-size: 400% 400%;
-        animation: gradientBG 15s ease infinite;
-        animation-delay: 2s;
-      }
-    }
-
     [data-theme="dark"] body {
       background: #06141B;
-    }
-
-    @media (prefers-reduced-motion: no-preference) {
-      [data-theme="dark"] body {
-        background: linear-gradient(-45deg, #06141B, #11212D, #0a1924, #1b2e3c);
-        background-size: 400% 400%;
-        animation: gradientBG 20s ease infinite;
-        animation-delay: 2s;
-      }
-    }
-
-    @keyframes gradientBG {
-      0% { background-position: 0% 50%; }
-      50% { background-position: 100% 50%; }
-      100% { background-position: 0% 50%; }
+      background: linear-gradient(135deg, #06141B 0%, #11212D 40%, #0a1924 70%, #1b2e3c 100%);
     }
 
     a { color: inherit; text-decoration: none; }
@@ -420,10 +398,7 @@
       align-items: center;
       overflow: hidden;
       background: #CCD0CF;
-      background: linear-gradient(-45deg, #CCD0CF, #9BA8AB, #CCD0CF, #ffffff);
-      background-size: 400% 400%;
-      animation: gradientBG 15s ease infinite;
-      animation-delay: 2s;
+      background: linear-gradient(135deg, #CCD0CF 0%, #E2E6E7 35%, #CCD0CF 70%, #9BA8AB 100%);
       transform: translateZ(0);
       contain: layout style paint;
       transition: background 0.3s ease;
@@ -500,7 +475,7 @@
       letter-spacing: 3px;
       text-transform: uppercase;
       animation: bounce 2s infinite;
-      animation-delay: 1.5s;
+      animation-delay: 3s;
       transition: opacity 0.2s ease, transform 0.2s ease, background 0.25s ease, color 0.25s ease, border-color 0.25s ease;
       z-index: 15;
       pointer-events: auto;
@@ -528,10 +503,7 @@
     /* Intro Section Dark Blueprint Theme Overrides */
     [data-theme="dark"] #intro-fixed {
       background: #06141B;
-      background: linear-gradient(-45deg, #06141B, #11212D, #0a1924, #1b2e3c);
-      background-size: 400% 400%;
-      animation: gradientBG 20s ease infinite;
-      animation-delay: 2s;
+      background: linear-gradient(135deg, #06141B 0%, #11212D 40%, #0a1924 70%, #1b2e3c 100%);
     }
 
     [data-theme="dark"] #intro-fixed::before {
@@ -1857,28 +1829,6 @@
 
     /* Mobile: disable heavy GPU blur filters for better LCP & paint performance */
     @media (max-width: 768px) {
-      /*
-       * LCP-FIRST MOBILE INTRO STRATEGY:
-       * The intro starts invisible (opacity:0 + visibility:hidden).
-       * JS reveals it AFTER the browser fires the LCP event, so the real
-       * portfolio content is measured as LCP — not the overlay.
-       * The full zoom + letter-split animation then runs identically to desktop.
-       */
-      #intro-fixed {
-        opacity: 0;
-        visibility: hidden;
-        pointer-events: none;
-        /* Smooth fade-in when JS adds .intro-ready class */
-        transition: opacity 0.35s ease, visibility 0.35s ease;
-      }
-
-      /* JS adds this class after LCP — reveals the intro */
-      #intro-fixed.intro-ready {
-        opacity: 1;
-        visibility: visible;
-        pointer-events: auto;
-      }
-
       /* Reduce scroll-spacer height on mobile (slightly shorter than desktop) */
       #scroll-spacer {
         height: 110vh;
@@ -2609,8 +2559,6 @@
     const scrollProgressBar = document.getElementById('scroll-progress');
     const mainPortfolio = document.getElementById('main-portfolio');
 
-    const isMobile = window.innerWidth <= 768;
-
     let ticking = false;
 
     // ── Unified scroll animation (identical on desktop & mobile) ──────────────
@@ -2674,62 +2622,13 @@
       }
     }
 
-    if (!isMobile) {
-      // ── Desktop: show intro immediately, attach optimized listeners ────────
-      window.addEventListener('resize', () => {
-        if (!ticking) {
-          window.requestAnimationFrame(updateIntroScroll);
-          ticking = true;
-        }
-      }, { passive: true });
-      attachScrollListener();
-    } else {
-      window.addEventListener('resize', updateIntroScroll, { passive: true });
-      // ── Mobile: LCP-first strategy ─────────────────────────────────────────
-      // 1. Intro starts opacity:0 / visibility:hidden (set in CSS).
-      // 2. We wait for the browser to fire the LCP event (real content painted).
-      // 3. Then we add .intro-ready → CSS transition fades the overlay IN.
-      // 4. Scroll animation runs identically to desktop.
-
-      function revealIntro() {
-        // Snap scroll position to 0 so animation starts clean
-        if (window.scrollY > 0) window.scrollTo(0, 0);
-        introFixed.classList.add('intro-ready');
-        attachScrollListener();
+    window.addEventListener('resize', () => {
+      if (!ticking) {
+        window.requestAnimationFrame(updateIntroScroll);
+        ticking = true;
       }
-
-      // Use PerformanceObserver to catch the LCP paint event
-      if ('PerformanceObserver' in window) {
-        let lcpFired = false;
-        const lcpObserver = new PerformanceObserver((list) => {
-          // LCP can update multiple times — we only act on the first firing
-          if (lcpFired) return;
-          lcpFired = true;
-          lcpObserver.disconnect();
-          // Small rAF delay lets the browser finish compositing before we
-          // paint the heavy overlay on top
-          requestAnimationFrame(() => requestAnimationFrame(revealIntro));
-        });
-        try {
-          lcpObserver.observe({ type: 'largest-contentful-paint', buffered: true });
-        } catch (e) {
-          // PerformanceObserver exists but LCP not supported — fallback
-          lcpFired = true;
-        }
-
-        // Safety fallback: if LCP never fires within 1.5 s, reveal anyway
-        setTimeout(() => {
-          if (!lcpFired) { lcpFired = true; lcpObserver.disconnect(); revealIntro(); }
-        }, 1500);
-      } else {
-        // No PerformanceObserver support — wait one rAF after DOMContentLoaded
-        if (document.readyState === 'complete' || document.readyState === 'interactive') {
-          requestAnimationFrame(revealIntro);
-        } else {
-          document.addEventListener('DOMContentLoaded', () => requestAnimationFrame(revealIntro));
-        }
-      }
-    }
+    }, { passive: true });
+    attachScrollListener();
 
     // Mobile Menu Drawer Toggle
     const menuToggle = document.getElementById('menu-toggle');
