@@ -723,6 +723,7 @@
         width: clamp(120px, 38vw, 180px);
         height: clamp(120px, 38vw, 180px);
       }
+      .hero-tagline { min-height: 80px; }
       .hero-bio { max-width: 100%; }
       .discipline-bar { justify-content: center; }
     }
@@ -749,6 +750,38 @@
       color: var(--accent-tertiary);
       margin-bottom: 1.2rem;
       font-weight: 700;
+      line-height: 1.35;
+      min-height: clamp(3.4rem, 4vw, 3.8rem);
+    }
+
+    .typing-cursor {
+      display: inline-block;
+      width: 2.5px;
+      height: 1.15em;
+      background: var(--accent-secondary);
+      margin-left: 4px;
+      vertical-align: -2px;
+      border-radius: 2px;
+      animation: cursorBlink 0.8s steps(1) infinite;
+      animation-delay: 3s;
+      opacity: 0;
+    }
+
+    [data-theme="dark"] .typing-cursor {
+      background: #38BDF8;
+      box-shadow: 0 0 8px rgba(56, 189, 248, 0.6);
+    }
+
+    @keyframes cursorBlink {
+      0%, 49% { opacity: 1; }
+      50%, 100% { opacity: 0; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .typing-cursor {
+        animation: none;
+        opacity: 1;
+      }
     }
 
     .hero-bio {
@@ -2170,7 +2203,7 @@
           <div class="hero-alias" style="display: block; font-size: 0.95rem; font-weight: 700; color: var(--text-muted); margin-top: -0.5rem; margin-bottom: 0.8rem; letter-spacing: 0.5px;">
             Known as <strong style="color: var(--accent-secondary);">Jose Nithin</strong> &bull; <strong style="color: var(--accent-secondary);">Josenithin</strong> &bull; <strong style="color: var(--accent-secondary);">Nithin</strong>
           </div>
-          <div class="hero-tagline">Civil &amp; Mechanical QA/QC Inspector</div>
+          <div class="hero-tagline"><span id="typing-text">Civil &amp; Mechanical QA/QC Inspector</span><span class="typing-cursor" aria-hidden="true"></span></div>
           <p class="hero-bio">
             Welcome to the official portfolio of <strong>Jose Nithin</strong>. I manage civil QA/QC and structural integrity, inspect mechanical pipelines to ASME/API standards, write PL/SQL for core banking systems, and run safe, compliant site operations as Person in Charge. Currently based in Qatar, open to civil/mechanical QA/QC, site supervision, and database engineering roles.
           </p>
@@ -2906,6 +2939,46 @@
       const currentYear = new Date().getFullYear();
       const years = Math.max(3, currentYear - startYear);
       liveExpEl.textContent = years + '+';
+    }
+
+    // ── Animated Typing Effect on Hero Tagline (Idea #1) ──────────────────────
+    const typingEl = document.getElementById('typing-text');
+    if (typingEl && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      const phrases = [
+        "Civil & Mechanical QA/QC Inspector",
+        "Site Operations Supervisor (Person in Charge / PIC)",
+        "Oracle PL/SQL Database Developer",
+        "From pipeline inspection to core banking databases \u2014 zero compromises on quality."
+      ];
+      let phraseIdx = 0;
+      let charIdx = phrases[0].length;
+      let isDeleting = true;
+      let typeSpeed = 50;
+
+      function typeLoop() {
+        const currentPhrase = phrases[phraseIdx];
+        if (isDeleting) {
+          charIdx--;
+          typeSpeed = 25;
+        } else {
+          charIdx++;
+          typeSpeed = 50;
+        }
+
+        typingEl.textContent = currentPhrase.substring(0, charIdx);
+
+        if (!isDeleting && charIdx === currentPhrase.length) {
+          typeSpeed = 2800; // Pause at end of completed phrase
+          isDeleting = true;
+        } else if (isDeleting && charIdx === 0) {
+          isDeleting = false;
+          phraseIdx = (phraseIdx + 1) % phrases.length;
+          typeSpeed = 450; // Pause before typing next phrase
+        }
+
+        setTimeout(typeLoop, typeSpeed);
+      }
+      setTimeout(typeLoop, 3500);
     }
 
     // Mobile Menu Drawer Toggle
