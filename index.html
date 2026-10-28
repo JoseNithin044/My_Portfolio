@@ -889,28 +889,7 @@
       opacity: 0;
     }
 
-    /* ── Idea #1: Typing Effect Cursor ──────────────────────────────────────── */
-    .hero-tagline {
-      min-height: 1.7em;
-    }
-
-    .typing-cursor {
-      display: inline-block;
-      width: 3px;
-      height: 1.15em;
-      background: var(--accent-secondary);
-      margin-left: 3px;
-      vertical-align: text-bottom;
-      animation: cursorBlink 0.7s steps(1) infinite;
-      border-radius: 2px;
-    }
-
-    @keyframes cursorBlink {
-      0%, 49% { opacity: 1; }
-      50%, 100% { opacity: 0; }
-    }
-
-    /* ── Idea #6: Available for Hire Badge ──────────────────────────────────── */
+    /* ── Available for Hire Top Badge ───────────────────────────────────────── */
     .hire-badge {
       display: inline-flex;
       align-items: center;
@@ -918,19 +897,20 @@
       background: rgba(37, 211, 102, 0.1);
       border: 1px solid rgba(37, 211, 102, 0.35);
       color: #25D366;
-      padding: 0.3rem 0.85rem;
+      padding: 0.22rem 0.7rem;
       border-radius: 20px;
-      font-size: 0.75rem;
+      font-size: 0.72rem;
       font-weight: 800;
       letter-spacing: 0.5px;
       text-transform: uppercase;
       white-space: nowrap;
-      margin-left: 0.7rem;
+      margin-left: 0.65rem;
+      vertical-align: middle;
     }
 
     .hire-dot {
-      width: 8px;
-      height: 8px;
+      width: 7px;
+      height: 7px;
       border-radius: 50%;
       background: #25D366;
       animation: hirePulse 2s ease-in-out infinite;
@@ -952,8 +932,20 @@
       background: #4ade80;
     }
 
-    @media (max-width: 768px) {
-      .hire-badge { display: none; }
+    @media (max-width: 600px) {
+      .hire-badge {
+        padding: 0.18rem 0.5rem;
+        font-size: 0.65rem;
+        margin-left: 0.35rem;
+        gap: 4px;
+      }
+      .hire-dot {
+        width: 6px;
+        height: 6px;
+      }
+      .hire-text-long {
+        display: none;
+      }
     }
 
     /* ── Idea #11: Dynamic Years Counter ────────────────────────────────────── */
@@ -2132,7 +2124,7 @@
   <!-- Main Portfolio Content -->
   <div id="main-portfolio">
     <header>
-      <a href="#" class="nav-brand" aria-label="Jose Nithin (Josenithin) Home">JOSE NITHIN<span class="hire-badge"><span class="hire-dot"></span>Available for Hire</span></a>
+      <a href="#" class="nav-brand" aria-label="Jose Nithin (Josenithin) Home">JOSE NITHIN<span class="hire-badge"><span class="hire-dot"></span>Available<span class="hire-text-long"> for Hire</span></span></a>
 
       <nav id="nav-menu">
         <a href="#experience" class="nav-link">Experience</a>
@@ -2175,13 +2167,12 @@
         <div class="hero-text">
           <div class="hero-title-sub">CIVIL & MECHANICAL QA/QC | SITE SUPERVISION | PL SQL DEVELOPMENT</div>
           <h1 class="hero-title-main">Jose Nithin Antony Arockia Raja</h1>
-          <div class="hero-alias" style="display: flex; align-items: center; flex-wrap: wrap; gap: 0.5rem; font-size: 0.95rem; font-weight: 700; color: var(--text-muted); margin-top: -0.5rem; margin-bottom: 0.8rem; letter-spacing: 0.5px;">
-            <span>Known as <strong style="color: var(--accent-secondary);">Jose Nithin</strong> &bull; <strong style="color: var(--accent-secondary);">Josenithin</strong> &bull; <strong style="color: var(--accent-secondary);">Nithin</strong></span>
-            <span class="hire-badge" style="margin-left: 0;"><span class="hire-dot"></span>Available for Hire</span>
+          <div class="hero-alias" style="display: block; font-size: 0.95rem; font-weight: 700; color: var(--text-muted); margin-top: -0.5rem; margin-bottom: 0.8rem; letter-spacing: 0.5px;">
+            Known as <strong style="color: var(--accent-secondary);">Jose Nithin</strong> &bull; <strong style="color: var(--accent-secondary);">Josenithin</strong> &bull; <strong style="color: var(--accent-secondary);">Nithin</strong>
           </div>
-          <div class="hero-tagline"><span id="typing-text">Civil &amp; Mechanical QA/QC Inspector</span><span class="typing-cursor" aria-hidden="true"></span></div>
+          <div class="hero-tagline">Civil &amp; Mechanical QA/QC Inspector</div>
           <p class="hero-bio">
-            Welcome to the official portfolio of <strong>Jose Nithin</strong> (also known as <strong>Josenithin</strong>). I manage civil QA/QC and structural integrity, inspect mechanical pipelines to ASME/API standards, write PL/SQL for core banking systems, and run safe, compliant site operations as Person in Charge. Currently based in Qatar, open to civil/mechanical QA/QC, site supervision, and database engineering roles.
+            Welcome to the official portfolio of <strong>Jose Nithin</strong>. I manage civil QA/QC and structural integrity, inspect mechanical pipelines to ASME/API standards, write PL/SQL for core banking systems, and run safe, compliant site operations as Person in Charge. Currently based in Qatar, open to civil/mechanical QA/QC, site supervision, and database engineering roles.
           </p>
 
           <!-- Interactive Discipline Filter -->
@@ -2915,46 +2906,6 @@
       const currentYear = new Date().getFullYear();
       const years = Math.max(3, currentYear - startYear);
       liveExpEl.textContent = years + '+';
-    }
-
-    // ── Animated Typing Effect on Hero Tagline (Idea #1) ──────────────────────
-    const typingEl = document.getElementById('typing-text');
-    if (typingEl) {
-      const phrases = [
-        "Civil & Mechanical QA/QC Inspector",
-        "Site Operations Supervisor (Person in Charge / PIC)",
-        "Oracle PL/SQL Database Developer",
-        "From pipeline inspection to core banking databases — zero compromises on quality."
-      ];
-      let phraseIdx = 0;
-      let charIdx = typingEl.textContent.length;
-      let isDeleting = false;
-      let typeSpeed = 65;
-
-      function typeLoop() {
-        const currentPhrase = phrases[phraseIdx];
-        if (isDeleting) {
-          charIdx--;
-          typeSpeed = 28;
-        } else {
-          charIdx++;
-          typeSpeed = 60;
-        }
-
-        typingEl.textContent = currentPhrase.substring(0, charIdx);
-
-        if (!isDeleting && charIdx === currentPhrase.length) {
-          typeSpeed = 2400; // Pause at end of phrase
-          isDeleting = true;
-        } else if (isDeleting && charIdx === 0) {
-          isDeleting = false;
-          phraseIdx = (phraseIdx + 1) % phrases.length;
-          typeSpeed = 450; // Pause before typing next phrase
-        }
-
-        setTimeout(typeLoop, typeSpeed);
-      }
-      setTimeout(typeLoop, 2000);
     }
 
     // Mobile Menu Drawer Toggle
