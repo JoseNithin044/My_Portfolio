@@ -2131,39 +2131,72 @@
       width: 100%;
       height: 100%;
       pointer-events: none;
-      z-index: 21;
+      z-index: 12;
       overflow: hidden;
-      opacity: 0;
-      transition: opacity 0.6s ease;
+      opacity: 0.85;
+      filter: blur(0px);
+      transition: filter 0.25s ease-out, opacity 0.25s ease-out;
       color: var(--accent-secondary);
+      contain: layout style paint;
     }
 
     [data-theme="dark"] .blueprint-parallax {
       color: #38BDF8;
     }
 
-    .blueprint-parallax.active {
-      opacity: 1;
-    }
-
     .bp-element {
       position: absolute;
       will-change: transform;
-      opacity: 0.36;
+      opacity: 0.58;
       transition: opacity 0.3s ease;
     }
 
     [data-theme="dark"] .bp-element {
-      opacity: 0.48;
-      filter: drop-shadow(0 0 10px rgba(56, 189, 248, 0.35));
+      opacity: 0.72;
+      filter: drop-shadow(0 0 10px rgba(56, 189, 248, 0.45));
     }
 
     .bp-element svg {
       display: block;
+      width: 100%;
+      height: 100%;
     }
 
-    @media (max-width: 768px), (prefers-reduced-motion: reduce) {
-      .blueprint-parallax { display: none; }
+    /* Subtle floating animation on the first page when static */
+    .bp-element:nth-child(odd) {
+      animation: bpFloatA 7s ease-in-out infinite;
+    }
+    .bp-element:nth-child(even) {
+      animation: bpFloatB 8.5s ease-in-out infinite;
+    }
+
+    @keyframes bpFloatA {
+      0%, 100% { transform: translateY(0px) rotate(0deg); }
+      50% { transform: translateY(-7px) rotate(1deg); }
+    }
+    @keyframes bpFloatB {
+      0%, 100% { transform: translateY(0px) rotate(0deg); }
+      50% { transform: translateY(7px) rotate(-1deg); }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .bp-element {
+        animation: none !important;
+      }
+      .journey-traveler-anim {
+        animation: none !important;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .bp-element {
+        opacity: 0.42;
+        transform: scale(0.62);
+        transform-origin: center center;
+      }
+      [data-theme="dark"] .bp-element {
+        opacity: 0.55;
+      }
     }
 
     /* ── Feature #4: Animated Career Journey Map ────────────────────────────── */
@@ -2236,6 +2269,98 @@
 
     @keyframes drawJourneyPath {
       to { stroke-dashoffset: 0; }
+    }
+
+    /* ── Journey Vehicle Traveler Animation (0ms TBT, GPU-accelerated) ──────── */
+    .journey-traveler-anim {
+      pointer-events: none;
+      animation: moveTraveler 16s cubic-bezier(0.42, 0.05, 0.58, 0.95) infinite;
+      will-change: transform;
+    }
+
+    @keyframes moveTraveler {
+      0% {
+        transform: translate(85px, 105px);
+      }
+      17.5% {
+        transform: translate(245px, 105px);
+      }
+      36.25% {
+        transform: translate(415px, 105px);
+      }
+      55% {
+        transform: translate(585px, 105px);
+      }
+      72.5% {
+        transform: translate(745px, 105px);
+      }
+      79% {
+        /* Flight climb */
+        transform: translate(805px, 92px) rotate(-7deg);
+      }
+      86% {
+        /* Flight cruising over border */
+        transform: translate(885px, 84px) rotate(-1deg);
+      }
+      93% {
+        /* Flight descent */
+        transform: translate(955px, 98px) rotate(4deg);
+      }
+      96%, 100% {
+        /* Touchdown at Doha */
+        transform: translate(995px, 105px) rotate(0deg);
+      }
+    }
+
+    .v-veh {
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.2s ease;
+    }
+
+    .v-auto {
+      animation: showAuto 16s linear infinite;
+    }
+    .v-car {
+      animation: showCar 16s linear infinite;
+    }
+    .v-bus {
+      animation: showBus 16s linear infinite;
+    }
+    .v-train {
+      animation: showTrain 16s linear infinite;
+    }
+    .v-plane {
+      animation: showPlane 16s linear infinite;
+    }
+
+    @keyframes showAuto {
+      0%, 16.5% { opacity: 1; visibility: visible; }
+      17.5%, 100% { opacity: 0; visibility: hidden; }
+    }
+
+    @keyframes showCar {
+      0%, 16.9% { opacity: 0; visibility: hidden; }
+      17.5%, 35.5% { opacity: 1; visibility: visible; }
+      36.25%, 100% { opacity: 0; visibility: hidden; }
+    }
+
+    @keyframes showBus {
+      0%, 35.5% { opacity: 0; visibility: hidden; }
+      36.25%, 54% { opacity: 1; visibility: visible; }
+      55%, 100% { opacity: 0; visibility: hidden; }
+    }
+
+    @keyframes showTrain {
+      0%, 54.2% { opacity: 0; visibility: hidden; }
+      55%, 71.5% { opacity: 1; visibility: visible; }
+      72.5%, 100% { opacity: 0; visibility: hidden; }
+    }
+
+    @keyframes showPlane {
+      0%, 71.5% { opacity: 0; visibility: hidden; }
+      72.5%, 98.5% { opacity: 1; visibility: visible; }
+      100% { opacity: 0; visibility: hidden; }
     }
 
     .journey-pin {
@@ -2653,6 +2778,77 @@
             <!-- Animated path overlay -->
             <path d="M 85,105 L 745,105 C 790,105 825,105 865,105 C 905,105 945,105 995,105 L 1025,105" class="journey-path-animated" id="journey-path" />
 
+            <!-- Animated Vehicle Traveler along Career Path -->
+            <g id="journey-traveler" class="journey-traveler-anim">
+              <!-- Auto: 10th to 12th Schooling (Vallioor to Vallioor) -->
+              <g class="v-veh v-auto" id="veh-auto">
+                <path d="M-12,-16 Q-4,-19 8,-17 L12,-9 L-13,-9 Z" fill="#eab308"/>
+                <path d="M-13,-9 L12,-9 L13,-3 L10,-1 L-14,-1 Z" fill="#16a34a"/>
+                <polygon points="5,-16 11,-9 6,-9 1,-16" fill="#93c5fd" opacity="0.85"/>
+                <rect x="-10" y="-15" width="9" height="6" rx="1" fill="#1e293b" opacity="0.65"/>
+                <circle cx="9" cy="0" r="3.5" fill="#1e293b"/>
+                <circle cx="9" cy="0" r="1.5" fill="#94a3b8"/>
+                <circle cx="-8" cy="0" r="4" fill="#1e293b"/>
+                <circle cx="-8" cy="0" r="1.8" fill="#94a3b8"/>
+                <polygon points="12,-4 22,-8 22,0 12,-2" fill="#fef08a" opacity="0.45"/>
+              </g>
+
+              <!-- Car: 12th to College (Vallioor to Coimbatore) -->
+              <g class="v-veh v-car" id="veh-car">
+                <path d="M-9,-14 L4,-14 L11,-8 L-13,-8 Z" fill="#1e293b"/>
+                <polygon points="-8,-13 3,-13 9,-9 -11,-9" fill="#93c5fd" opacity="0.85"/>
+                <line x1="-2" y1="-13" x2="-2" y2="-9" stroke="#1e293b" stroke-width="1"/>
+                <path d="M-16,-8 Q-14,-2 14,-2 Q16,-2 16,-5 Q15,-8 11,-8 L-13,-8 Z" fill="#0284c7"/>
+                <polygon points="16,-5 26,-8 26,-2 16,-3" fill="#fef08a" opacity="0.5"/>
+                <rect x="-16.5" y="-7" width="1.5" height="2.5" fill="#ef4444"/>
+                <circle cx="-9" cy="0" r="3.5" fill="#1e293b"/>
+                <circle cx="-9" cy="0" r="1.5" fill="#cbd5e1"/>
+                <circle cx="9" cy="0" r="3.5" fill="#1e293b"/>
+                <circle cx="9" cy="0" r="1.5" fill="#cbd5e1"/>
+              </g>
+
+              <!-- Bus: College to Trichy (Coimbatore to Trichy BHEL) -->
+              <g class="v-veh v-bus" id="veh-bus">
+                <rect x="-18" y="-17" width="36" height="15" rx="2.5" fill="#059669"/>
+                <rect x="-18" y="-17" width="36" height="3" rx="1" fill="#f8fafc"/>
+                <rect x="-16" y="-13" width="5" height="5" rx="0.5" fill="#93c5fd" opacity="0.9"/>
+                <rect x="-9.5" y="-13" width="5" height="5" rx="0.5" fill="#93c5fd" opacity="0.9"/>
+                <rect x="-3" y="-13" width="5" height="5" rx="0.5" fill="#93c5fd" opacity="0.9"/>
+                <rect x="3.5" y="-13" width="5" height="5" rx="0.5" fill="#93c5fd" opacity="0.9"/>
+                <rect x="10" y="-13" width="6" height="6" rx="0.5" fill="#93c5fd" opacity="0.9"/>
+                <polygon points="18,-6 28,-10 28,-2 18,-4" fill="#fef08a" opacity="0.5"/>
+                <circle cx="-11" cy="0" r="3.8" fill="#1e293b"/>
+                <circle cx="-11" cy="0" r="1.5" fill="#cbd5e1"/>
+                <circle cx="11" cy="0" r="3.8" fill="#1e293b"/>
+                <circle cx="11" cy="0" r="1.5" fill="#cbd5e1"/>
+              </g>
+
+              <!-- Train: Trichy to Chennai (Trichy to Chennai LTM) -->
+              <g class="v-veh v-train" id="veh-train">
+                <path d="M-18,-15 L10,-15 Q18,-15 19,-7 L19,-2 L-18,-2 Z" fill="#2563eb"/>
+                <path d="M-18,-6 L19,-6 L19,-2 L-18,-2 Z" fill="#f59e0b"/>
+                <path d="M8,-14 L14,-14 Q17,-13 18,-8 L10,-8 Z" fill="#93c5fd" opacity="0.9"/>
+                <rect x="-15" y="-12" width="4.5" height="4" rx="0.5" fill="#93c5fd" opacity="0.85"/>
+                <rect x="-8.5" y="-12" width="4.5" height="4" rx="0.5" fill="#93c5fd" opacity="0.85"/>
+                <rect x="-2" y="-12" width="4.5" height="4" rx="0.5" fill="#93c5fd" opacity="0.85"/>
+                <circle cx="-12" cy="0" r="3" fill="#334155"/>
+                <circle cx="-5" cy="0" r="3" fill="#334155"/>
+                <circle cx="5" cy="0" r="3" fill="#334155"/>
+                <circle cx="12" cy="0" r="3" fill="#334155"/>
+                <polygon points="19,-6 30,-10 30,-2 19,-4" fill="#fef08a" opacity="0.5"/>
+              </g>
+
+              <!-- Plane: Chennai to Doha (International Flight) -->
+              <g class="v-veh v-plane" id="veh-plane">
+                <path d="M-15,-6 Q-5,-10 14,-6 Q18,-5 18,-4 Q18,-3 14,-2 Q-5,-2 -15,-3 Z" fill="#ffffff" stroke="#0284c7" stroke-width="0.8"/>
+                <path d="M12,-5 Q15,-5 15,-4 L12,-4 Z" fill="#1e293b"/>
+                <polygon points="-15,-6 -11,-15 -7,-15 -12,-6" fill="#0284c7"/>
+                <polygon points="-2,-4 4,-12 8,-12 3,-4" fill="#38bdf8"/>
+                <rect x="-1" y="-2" width="6" height="3" rx="1.5" fill="#64748b"/>
+                <line x1="-15" y1="-4" x2="-26" y2="-4" stroke="#93c5fd" stroke-width="1.5" stroke-dasharray="2 2" opacity="0.75"/>
+              </g>
+            </g>
+
             <!-- Pin 1: Vallioor (10th) -->
             <g class="journey-pin" data-delay="0" id="pin-1">
               <circle cx="85" cy="105" r="9" class="journey-pin-dot"/>
@@ -2713,9 +2909,10 @@
           </svg>
         </div>
         <div class="journey-legend">
-          <div class="journey-legend-item"><div class="legend-line"></div> Career &amp; Academic Path</div>
-          <div class="journey-legend-item"><div class="legend-dot past"></div> Milestone / Education</div>
-          <div class="journey-legend-item"><div class="legend-dot now"></div> Current Location</div>
+          <div class="journey-legend-item"><div class="legend-line"></div> Career &amp; Academic Route</div>
+          <div class="journey-legend-item"><div class="legend-dot past"></div> Milestone</div>
+          <div class="journey-legend-item"><div class="legend-dot now"></div> Current (Doha)</div>
+          <div class="journey-legend-item" style="color: var(--accent-secondary); font-weight: 800;"><span>🛺 Auto &rarr; 🚗 Car &rarr; 🚌 Bus &rarr; 🚆 Train &rarr; ✈️ Flight</span></div>
         </div>
       </div>
     </section>
@@ -3342,6 +3539,15 @@
       introFixed.style.opacity    = Math.max(0, opacity);
       introFixed.style.visibility = opacity <= 0 ? 'hidden' : 'visible';
 
+      // Feature #3: Mechanical components blur smoothly into the background as user moves to the next page
+      const bpEl = document.getElementById('blueprint-parallax');
+      if (bpEl) {
+        const blurPx = scrollProgress * 8.5; // 0px on first page -> 8.5px blur on next page
+        const opacityVal = Math.max(0.35, 0.85 - scrollProgress * 0.45);
+        bpEl.style.filter = `blur(${blurPx.toFixed(1)}px)`;
+        bpEl.style.opacity = `${opacityVal.toFixed(2)}`;
+      }
+
       ticking = false;
     }
 
@@ -3929,14 +4135,14 @@
       journeyObserver.observe(journeySection);
     }
 
-    // ── Feature #3: Parallax Blueprint Background ─────────────────────────────
+    // ── Feature #3: Parallax Blueprint Background (Visible on First Page & Blur on Scroll)
     const blueprintContainer = document.getElementById('blueprint-parallax');
-    if (blueprintContainer && !window.matchMedia('(prefers-reduced-motion: reduce)').matches && window.innerWidth > 768) {
+    if (blueprintContainer && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
       const schematics = [
-        // 1. Pipe flange connection
+        // 1. Pipe flange connection (Top-Left on first page)
         {
-          top: '16%', left: '3%', factor: 0.16,
-          svg: `<svg width="200" height="200" viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="1.5">
+          top: '8%', left: '3%', factor: 0.2,
+          svg: `<svg width="190" height="190" viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="1.5">
             <circle cx="50" cy="50" r="44" stroke-dasharray="3 3"/>
             <circle cx="50" cy="50" r="34"/>
             <circle cx="50" cy="50" r="22"/>
@@ -3953,10 +4159,10 @@
             <text x="50" y="53" font-size="6.5" font-weight="bold" font-family="monospace" text-anchor="middle" fill="currentColor">ASME B31.3</text>
           </svg>`
         },
-        // 2. Weld symbol & joint diagram
+        // 2. Weld symbol & joint diagram (Top-Right on first page)
         {
-          top: '38%', right: '3%', factor: -0.15,
-          svg: `<svg width="210" height="140" viewBox="0 0 120 80" fill="none" stroke="currentColor" stroke-width="1.5">
+          top: '10%', right: '3%', factor: -0.18,
+          svg: `<svg width="200" height="135" viewBox="0 0 120 80" fill="none" stroke="currentColor" stroke-width="1.5">
             <path d="M10,40 L80,40 L108,12"/>
             <polygon points="45,40 55,22 65,40" fill="none" stroke="currentColor"/>
             <circle cx="80" cy="40" r="5.5" fill="none"/>
@@ -3967,10 +4173,10 @@
             <text x="45" y="65" font-size="5" font-family="monospace" text-anchor="middle" fill="currentColor">BEVEL</text>
           </svg>`
         },
-        // 3. Pressure Vessel Nozzle / Flanged Joint
+        // 3. Pressure Vessel Nozzle / Flanged Joint (Mid-Left)
         {
-          top: '55%', left: '2.5%', factor: 0.17,
-          svg: `<svg width="190" height="170" viewBox="0 0 110 100" fill="none" stroke="currentColor" stroke-width="1.5">
+          top: '44%', left: '2%', factor: 0.16,
+          svg: `<svg width="180" height="160" viewBox="0 0 110 100" fill="none" stroke="currentColor" stroke-width="1.5">
             <path d="M20,15 L90,15 L80,30 L65,30 L65,70 L95,85 L15,85 L45,70 L45,30 L30,30 Z"/>
             <line x1="10" y1="15" x2="100" y2="15" stroke-width="2"/>
             <circle cx="28" cy="15" r="2.5" fill="currentColor"/>
@@ -3980,10 +4186,10 @@
             <text x="55" y="62" font-size="5" font-family="monospace" text-anchor="middle" fill="currentColor">CL 300 RF</text>
           </svg>`
         },
-        // 4. Rail track cross section (Doha Metro)
+        // 4. Rail track cross section (Mid-Right - Doha Metro)
         {
-          top: '72%', right: '3%', factor: -0.16,
-          svg: `<svg width="190" height="165" viewBox="0 0 100 90" fill="none" stroke="currentColor" stroke-width="1.5">
+          top: '46%', right: '2%', factor: -0.16,
+          svg: `<svg width="180" height="155" viewBox="0 0 100 90" fill="none" stroke="currentColor" stroke-width="1.5">
             <path d="M25,12 L75,12 L66,28 L58,42 L58,64 L82,74 L82,82 L18,82 L18,74 L42,64 L42,42 L34,28 Z"/>
             <line x1="8" y1="82" x2="92" y2="82" stroke-width="2"/>
             <line x1="50" y1="4" x2="50" y2="88" stroke-dasharray="2 2"/>
@@ -3991,10 +4197,23 @@
             <text x="50" y="52" font-size="5" font-family="monospace" text-anchor="middle" fill="currentColor">METRO TRACK</text>
           </svg>`
         },
-        // 5. Engineering compass & dimensional alignment
+        // 5. Gate Valve & Isometric Piping (Bottom-Left on first page)
         {
-          top: '88%', left: '3.5%', factor: 0.15,
-          svg: `<svg width="190" height="190" viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="1.5">
+          top: '76%', left: '3%', factor: -0.14,
+          svg: `<svg width="180" height="150" viewBox="0 0 100 80" fill="none" stroke="currentColor" stroke-width="1.5">
+            <polygon points="15,25 45,45 15,65" fill="none" stroke="currentColor"/>
+            <polygon points="75,25 45,45 75,65" fill="none" stroke="currentColor"/>
+            <line x1="45" y1="45" x2="45" y2="18"/>
+            <ellipse cx="45" cy="18" rx="14" ry="4" stroke="currentColor"/>
+            <line x1="5" y1="45" x2="15" y2="45" stroke-dasharray="2 2"/>
+            <line x1="75" y1="45" x2="85" y2="45" stroke-dasharray="2 2"/>
+            <text x="45" y="74" font-size="6" font-family="monospace" text-anchor="middle" fill="currentColor">VALVE API 600</text>
+          </svg>`
+        },
+        // 6. Engineering compass & dimensional alignment (Bottom-Right on first page)
+        {
+          top: '74%', right: '3%', factor: 0.18,
+          svg: `<svg width="185" height="185" viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="1.5">
             <circle cx="50" cy="50" r="42"/>
             <circle cx="50" cy="50" r="30" stroke-dasharray="3 3"/>
             <polygon points="50,12 55,45 50,40 45,45" fill="currentColor"/>
@@ -4020,23 +4239,21 @@
 
       const bpElements = blueprintContainer.querySelectorAll('.bp-element');
 
-      function updateBlueprintParallax() {
-        const scrollY = window.scrollY;
-        if (scrollY > window.innerHeight * 0.35) {
-          blueprintContainer.classList.add('active');
-          bpElements.forEach(el => {
-            const factor = parseFloat(el.dataset.factor || 0);
-            const offset = (scrollY - window.innerHeight * 0.4) * factor;
-            el.style.transform = `translate3d(0, ${offset.toFixed(1)}px, 0)`;
-          });
-        } else {
-          blueprintContainer.classList.remove('active');
-        }
+      function updateBlueprintParallax(sY) {
+        const scrollY = sY !== undefined ? sY : window.scrollY;
+        bpElements.forEach(el => {
+          const factor = parseFloat(el.dataset.factor || 0);
+          const offset = scrollY * factor;
+          el.style.transform = `translate3d(0, ${offset.toFixed(1)}px, 0)`;
+        });
       }
 
       window.addEventListener('scroll', () => {
-        window.requestAnimationFrame(updateBlueprintParallax);
+        window.requestAnimationFrame(() => updateBlueprintParallax());
       }, { passive: true });
+
+      // Initialize positions immediately on load
+      updateBlueprintParallax(0);
     }
 
     // ── Feature #13: Major Festival Detection Engine ───────────────────────────
